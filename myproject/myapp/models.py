@@ -1,9 +1,15 @@
 from django.db import models
 
+class Major(models.Model):
+    title = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.title
+
 class Student(models.Model):
+    major = models.ForeignKey(Major, related_name="students", related_query_name="student", on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    major = models.CharField(max_length=50)
     enrollment_date = models.DateField()
     
     def __str__(self):
@@ -31,6 +37,7 @@ class Section(models.Model):
         "summer": "Summer",
     }
     course = models.ForeignKey(Course, related_name="sections", related_query_name="section", on_delete=models.CASCADE)
+    major = models.ForeignKey(Major, related_name="sections", related_query_name="section", on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, related_name="sections", related_query_name="section", on_delete = models.CASCADE)
     building = models.CharField(max_length=30, null=True)
     room = models.CharField(max_length=10, null=True)
@@ -39,7 +46,7 @@ class Section(models.Model):
     students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
 
     def __str__(self):
-        return f"{self.id}. {self.building} room {self.room}, {self.semester} {self.year}"
+        return f"{self.id}. {self.building}-{self.room}, {self.semester} {self.year}"
 
 class Schedule(models.Model):
     DAYS = {

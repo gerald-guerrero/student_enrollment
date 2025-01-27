@@ -1,7 +1,12 @@
 from django.contrib import admin
-from .models import Student, Professor, Course, Section, Schedule
+from .models import Major, Student, Professor, Course, Section, Schedule
 
 # Register your models here.
+@admin.register(Major)
+class MajorAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    search_fields = ['title']
+
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'major', 'enrollment_date')
@@ -19,8 +24,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('course', 'professor', 'building', 'room', 'semester', 'year')
-    search_fields = ('course', 'professor', 'building', 'room', 'semester', 'year')
+    list_display = ('course', 'major', 'professor', 'building', 'room', 'semester', 'year')
+    search_fields = ('course', 'major', 'professor', 'building', 'room', 'semester', 'year')
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
