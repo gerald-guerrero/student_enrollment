@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+    <title>Data</title>
+</head>
+<body>
+    <h1>Student Data</h1>
+    <p>
+        {% for section in sections_info %}
+            {{ section|linebreaks }}
+            <br>
+        {% endfor %}
+    </p>
+</body>
