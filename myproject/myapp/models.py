@@ -1,5 +1,10 @@
 from django.db import models
 
+class Semesters(models.TextChoices):
+    FALL = "Fall"
+    SPRING = "Spring"
+    SUMMER = "Summer"
+
 class Major(models.Model):
     title = models.CharField(max_length=50, unique=True)
 
@@ -10,7 +15,8 @@ class Student(models.Model):
     major = models.ForeignKey(Major, related_name="students", related_query_name="student", on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    enrollment_date = models.DateField()
+    semester_enrolled = models.CharField(max_length=10, choices=Semesters.choices)
+    year_enrolled = models.IntegerField()
     
     def __str__(self):
         return f"{self.id}. {self.first_name } {self.last_name}"
@@ -31,17 +37,13 @@ class Course(models.Model):
         return self.name
 
 class Section(models.Model):
-    SEMESTERS = {
-        "fall": "Fall",
-        "spring": "Spring",
-        "summer": "Summer",
-    }
+
     course = models.ForeignKey(Course, related_name="sections", related_query_name="section", on_delete=models.CASCADE)
     major = models.ForeignKey(Major, related_name="sections", related_query_name="section", on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, related_name="sections", related_query_name="section", on_delete = models.CASCADE)
     building = models.CharField(max_length=30, null=True)
     room = models.CharField(max_length=10, null=True)
-    semester = models.CharField(max_length=10, choices=SEMESTERS)
+    semester = models.CharField(max_length=10, choices=Semesters.choices)
     year = models.IntegerField()
     students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
 

@@ -9,8 +9,8 @@ class MajorAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'major', 'enrollment_date')
-    search_fields = ('first_name', 'last_name', 'major', 'enrollment_date')
+    list_display = ('first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled')
+    search_fields = ('first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled')
 
 @admin.register(Professor)
 class ProfessorAdmin(admin.ModelAdmin):
