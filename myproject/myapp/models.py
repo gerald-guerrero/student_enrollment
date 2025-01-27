@@ -30,7 +30,14 @@ class Section(models.Model):
     students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
 
 class Schedule(models.Model):
+    DAYS = {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+    }
     section = models.ForeignKey(Section, related_name="schedules", related_query_name="schedule", on_delete=models.CASCADE)
-    class_day = models.CharField(max_length=10)
+    class_day = models.CharField(max_length=10, choices=DAYS)
     start_time = models.TimeField()
     end_time = models.TimeField()
