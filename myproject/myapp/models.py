@@ -5,15 +5,24 @@ class Student(models.Model):
     last_name = models.CharField(max_length=50)
     major = models.CharField(max_length=50)
     enrollment_date = models.DateField()
+    
+    def __str__(self):
+        return f"{self.id}. {self.first_name } {self.last_name}"
 
 class Professor(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     department = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f"{self.first_name } {self.last_name}"
 
 class Course(models.Model):
-    course_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     credits = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 class Section(models.Model):
     SEMESTERS = {
@@ -25,9 +34,12 @@ class Section(models.Model):
     professor = models.ForeignKey(Professor, related_name="sections", related_query_name="section", on_delete = models.CASCADE)
     building = models.CharField(max_length=30, null=True)
     room = models.CharField(max_length=10, null=True)
-    semester_enrolled = models.CharField(max_length=10, choices=SEMESTERS)
-    year_enrolled = models.IntegerField()
+    semester = models.CharField(max_length=10, choices=SEMESTERS)
+    year = models.IntegerField()
     students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
+
+    def __str__(self):
+        return f"{self.id}. {self.building} room {self.room}, {self.semester} {self.year}"
 
 class Schedule(models.Model):
     DAYS = {
@@ -41,3 +53,6 @@ class Schedule(models.Model):
     class_day = models.CharField(max_length=10, choices=DAYS)
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.class_day}: {self.start_time} - {self.end_time}"
