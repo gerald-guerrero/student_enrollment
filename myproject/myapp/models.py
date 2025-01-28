@@ -22,9 +22,14 @@ class Student(models.Model):
         return f"{self.id}. {self.first_name } {self.last_name}"
 
 class Professor(models.Model):
+    DEPARTMENT = {
+        "Business": "Business",
+        "Mathematics": "Mathematics",
+        "Engineering": "Engineering"
+    }
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    department = models.CharField(max_length=50)
+    department = models.CharField(max_length=50, choices=DEPARTMENT)
     
     def __str__(self):
         return f"{self.first_name } {self.last_name}"
@@ -52,11 +57,11 @@ class Section(models.Model):
 
 class Schedule(models.Model):
     DAYS = {
-        "monday": "Monday",
-        "tuesday": "Tuesday",
-        "wednesday": "Wednesday",
-        "thursday": "Thursday",
-        "friday": "Friday",
+        "Monday": "Monday",
+        "Tuesday": "Tuesday",
+        "Wednesday": "Wednesday",
+        "Thursday": "Thursday",
+        "Friday": "Friday",
     }
     section = models.ForeignKey(Section, related_name="schedules", related_query_name="schedule", on_delete=models.CASCADE)
     class_day = models.CharField(max_length=10, choices=DAYS)
