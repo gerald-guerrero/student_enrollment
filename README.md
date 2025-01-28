@@ -15,5 +15,7 @@
 >`venv\Scripts\activate`
 5. Install all dependencies:
 >`pip install -r requirements.txt`
-6. Run the app with:
+6. CD into the project:
+>`cd myproject`
+7. Run the app with:
 >`python manage.py runserver`

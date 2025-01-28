@@ -3,6 +3,12 @@ from .models import Section
 
 # Create your views here.
 def course_data(request):
+    """
+    Obtains every section (class) available and joins it with the relevant course, professor, and
+    students tables.
+    The loop iterates through every section and obtains the relevant data to append it to the list.
+    Renders index.html template with the concatenated section information as context
+    """
     sections = Section.objects.select_related('course', 'professor').prefetch_related('students')
     sections_info = []
     for section in sections:

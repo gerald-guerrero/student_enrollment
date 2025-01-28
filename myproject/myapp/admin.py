@@ -19,13 +19,13 @@ class ProfessorAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'credits')
-    search_fields = ('name', 'credits')
+    list_display = ('name', 'major', 'credits')
+    search_fields = ('name', 'major', 'credits')
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('course', 'major', 'professor', 'building', 'room', 'semester', 'year')
-    search_fields = ('course', 'major', 'professor', 'building', 'room', 'semester', 'year')
+    list_display = ('course', 'professor', 'building', 'room', 'semester', 'year')
+    search_fields = ('course', 'professor', 'building', 'room', 'semester', 'year')
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
