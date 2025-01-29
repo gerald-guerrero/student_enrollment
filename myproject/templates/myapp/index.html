@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Data</title>
-</head>
-<body>
-    <h1>Student Data</h1>
+{% extends "base.html" %}
+{% block content %}
     <table>
         <tr>
             <th>Major</th>
@@ -32,4 +26,4 @@
         </tr>
         {% endfor %}
     </table>
-</body>
+{% endblock %}

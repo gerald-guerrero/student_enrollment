@@ -26,4 +26,4 @@ def course_data(request):
         }
         sections_info.append(details)
 
-    return render(request, "index.html", {"sections_info": sections_info})
+    return render(request, "myapp/index.html", {"sections_info": sections_info})
