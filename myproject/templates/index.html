@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>Data</title>
 </head>
 <body>
     <h1>Student Data</h1>
-    <p>
+    <table>
+        <tr>
+            <th>Major</th>
+            <th>Name</th>
+            <th>Section ID</th>
+            <th>Credits</th>
+            <th>Semester</th>
+            <th>Year</th>
+            <th>Professor</th>
+            <th>Schedule</th>
+            <th>Students</th>
+        </tr>
         {% for section in sections_info %}
-            {{ section|linebreaks }}
-            <br>
+        <tr>
+            <td>{{ section.major }}</td>
+            <td>{{ section.name }}</td>
+            <td>{{ section.section_id }}</td>
+            <td>{{ section.credits }}</td>
+            <td>{{ section.semester }}</td>
+            <td>{{ section.year }}</td>
+            <td>{{ section.professor }}</td>
+            <td>{{ section.schedule|linebreaks }}</td>
+            <td>{{ section.students|linebreaks }}</td>
+        </tr>
         {% endfor %}
-    </p>
+    </table>
 </body>
