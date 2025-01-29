@@ -33,7 +33,7 @@ class Student(models.Model):
     year_enrolled = models.IntegerField(help_text="Provide the year the student will begin classes")
     
     def __str__(self):
-        return f"{self.id}. {self.first_name } {self.last_name}"
+        return f"({self.id}) {self.first_name } {self.last_name}"
 
 class Professor(models.Model):
     """
@@ -81,7 +81,7 @@ class Section(models.Model):
     students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
 
     def __str__(self):
-        return f"{self.id}. {self.building}-{self.room}, {self.semester} {self.year}"
+        return f"({self.id}) {self.course.name}, {self.semester} {self.year}"
 
 class Schedule(models.Model):
     """
