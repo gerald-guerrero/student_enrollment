@@ -113,7 +113,7 @@ class Schedule(models.Model):
 
 
 def check_time_slots(original_schedules, requested_schedules):
-    print(original_schedules, requested_schedules)
+    # compares schedules to check if any time slots overlap with each other
     for original_slot in original_schedules:
         for requested_slot in requested_schedules:
             if (original_slot.start_time <= requested_slot.end_time and 
