@@ -2,7 +2,10 @@
 
 ## Requirements
 - Python 3.13.0
+- psql 17.2
 - Django 5.1.5
+- psycopg 3.2.4
+- dgango-environ 0.12.0
 
 ## Instructions
 1. In a terminal, navigate to your preferred directory and use the command:
@@ -17,5 +20,18 @@
 >`pip install -r requirements.txt`
 6. CD into the project:
 >`cd myproject`
-7. Run the app with:
+7. create a .env file and fill out the following environmental variables\
+with your postgresql database information
+```bash
+DB_NAME=your_db_name
+DB_USER=your_db_username
+DB_PASSWORD=your_db_password
+DB_HOST=your_db_host
+DB_PORT=your_db_port
+```
+8. create db tables in your database:
+>`python manage.py migrate`
+9. create a superuser for the admin page
+>`python manage.py createsuperuser`
+8. Run the app with:
 >`python manage.py runserver`
