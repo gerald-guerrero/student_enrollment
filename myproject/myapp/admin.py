@@ -24,8 +24,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('course', 'professor', 'building', 'room', 'semester', 'year')
-    search_fields = ('course', 'professor', 'building', 'room', 'semester', 'year')
+    list_display = ('course', 'professor', 'building', 'room', 'semester', 'year', 'size')
+    search_fields = ('course', 'professor', 'building', 'room', 'semester', 'year', 'size')
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):

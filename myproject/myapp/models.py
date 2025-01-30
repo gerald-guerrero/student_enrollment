@@ -78,6 +78,7 @@ class Section(models.Model):
     room = models.CharField(max_length=10, null=True, help_text="Provide the room number")
     semester = models.CharField(max_length=10, choices=Semesters.choices, help_text="Select which semester the section will take place")
     year = models.IntegerField(help_text="Provide the year the section will take place")
+    size = models.IntegerField(default=50, help_text="Provide the maximum amount of students that can register for this section")
     students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
 
     def __str__(self):
