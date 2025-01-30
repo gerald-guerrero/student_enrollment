@@ -22,6 +22,7 @@ def course_data(request):
             "year": section.year,
             "professor": section.professor,
             "schedule": "\n".join([schedule.__str__() for schedule in section.schedules.all()]),
+            "capacity": f"{section.students.all().count()} / {section.size}",
             "students": "\n".join([student.__str__() for student in section.students.all()])
         }
         sections_info.append(details)

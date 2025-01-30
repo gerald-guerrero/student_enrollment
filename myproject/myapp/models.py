@@ -152,8 +152,8 @@ def section_max_limit(sender, instance, action, reverse, model, pk_set, **kwargs
         
     else:
         for pk in pk_set.copy():
-            student_sections = Student.objects.get(pk=pk).sections.all()
-
+            student_sections = model.objects.get(pk=pk).sections.all()
+            
             student_schedules = schedules.filter(section__in=student_sections).all()
             requested_schedules = schedules.filter(section=instance).all()
             if not check_time_slots(student_schedules, requested_schedules):
