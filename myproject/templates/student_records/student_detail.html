@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Student Details</h2>
+    <table>
+        <tr>
+            <td>Student ID</td>
+            <td>{{student.id}}</td>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td>{{student.first_name}}</td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td>{{student.last_name}}</td>
+        </tr>
+        <tr>
+            <td>Major</td>
+            <td>{{student.major}}</td>
+        </tr>
+        <tr>
+            <td>Enrolled</td>
+            <td>{{student.semester_enrolled}} {{student.year_enrolled}}</td>
+        </tr>
+    </table>
+{% endblock %}
