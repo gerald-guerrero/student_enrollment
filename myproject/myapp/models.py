@@ -82,7 +82,7 @@ class Section(models.Model):
     semester = models.CharField(max_length=10, choices=Semesters.choices, help_text="Select which semester the section will take place")
     year = models.IntegerField(help_text="Provide the year the section will take place")
     size = models.IntegerField(default=50, help_text="Provide the maximum amount of students that can register for this section")
-    students = models.ManyToManyField(Student, related_name="sections", related_query_name="section")
+    students = models.ManyToManyField(Student, related_name="sections", related_query_name="section", blank=True)
 
     def __str__(self):
         return f"({self.id}) {self.course.name}, {self.semester} {self.year}"
