@@ -12,7 +12,11 @@
     <header>
         <h1>Student Enrollment System</h1>
     </header>
-
+    <nav>
+        <a href="{% url 'homepage' %}">Homepage</a>
+        <a href="{% url 'student_list' %}">Students</a>
+    </nav>
+    <br>
     {% block content %}
     {% endblock %}
 </body>
