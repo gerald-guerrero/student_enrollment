@@ -23,4 +23,13 @@
             <td>{{student.semester_enrolled}} {{student.year_enrolled}}</td>
         </tr>
     </table>
+
+    <br>
+    <table>
+        <tr>
+            <td>
+                <a href="{% url 'student_update' pk=student.pk %}">Update</a>
+            </td>
+        </tr>
+    </table>
 {% endblock %}
