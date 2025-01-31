@@ -20,7 +20,7 @@
 >`pip install -r requirements.txt`
 6. CD into the project:
 >`cd myproject`
-7. create a .env file and fill out the following environmental variables\
+7. create a .env file in the the current directory and fill out the following environmental variables\
 with your postgresql database information
 ```bash
 DB_NAME=your_db_name
@@ -33,5 +33,5 @@ DB_PORT=your_db_port
 >`python manage.py migrate`
 9. create a superuser for the admin page
 >`python manage.py createsuperuser`
-8. Run the app with:
+10. Run the app with:
 >`python manage.py runserver`
