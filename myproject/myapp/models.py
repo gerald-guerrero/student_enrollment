@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 
 class Semesters(models.TextChoices):
     """
@@ -37,6 +38,9 @@ class Student(models.Model):
     
     def __str__(self):
         return f"({self.id}) {self.first_name } {self.last_name}"
+    
+    def get_absolute_url(self):
+        return reverse("student_detail", kwargs={"pk": self.pk})
 
 class Professor(models.Model):
     """

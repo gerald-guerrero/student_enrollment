@@ -11,3 +11,9 @@ class StudentListView(ListView):
 class StudentDetailView(DeleteView):
     model = Student
     template_name = 'student_records/student_detail.html'
+
+class StudentCreateView(CreateView):
+    model = Student
+    fields = ['first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled']
+    template_name = 'student_records/student_create.html'
+
