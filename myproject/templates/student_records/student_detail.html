@@ -30,6 +30,9 @@
             <td>
                 <a href="{% url 'student_update' pk=student.pk %}">Update</a>
             </td>
+            <td>
+                <a href="{% url 'student_delete' pk=student.pk %}">Delete</a>
+            </td>
         </tr>
     </table>
 {% endblock %}
