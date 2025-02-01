@@ -90,6 +90,13 @@ class Section(models.Model):
 
     def __str__(self):
         return f"({self.id}) {self.course.name}, {self.semester} {self.year}"
+    
+    def get_capacity_str(self):
+        return f"{self.students.all().count()} / {self.size}"
+    
+    def get_schedules_str(self):
+        full_schedule = [str(schedule) for schedule in self.schedules.all()]
+        return "\n".join(full_schedule)
 
 class Schedule(models.Model):
     """
