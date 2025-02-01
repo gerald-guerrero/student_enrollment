@@ -10,6 +10,7 @@
             <th>Year</th>
             <th>Capacity</th>
             <th>Schedule</th>
+            <th>Options</th>
         </tr>
         {% for section in section_list %}
             <tr>
@@ -20,6 +21,7 @@
                 <td>{{ section.year }}</td>
                 <td>{{ section.get_capacity_str }}</td>
                 <td>{{ section.get_schedules_str|linebreaks }}</td>
+                <td><a href="{% url 'section_update' pk=section.pk %}">view</a></td>
             </tr>
         {% endfor %}
     </table>

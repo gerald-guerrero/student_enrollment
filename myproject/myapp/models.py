@@ -97,6 +97,9 @@ class Section(models.Model):
     def get_schedules_str(self):
         full_schedule = [str(schedule) for schedule in self.schedules.all()]
         return "\n".join(full_schedule)
+    
+    def get_absolute_url(self):
+        return reverse("section_update", kwargs={"pk": self.pk})
 
 class Schedule(models.Model):
     """
