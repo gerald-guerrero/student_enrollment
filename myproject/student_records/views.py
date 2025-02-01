@@ -26,6 +26,12 @@ class StudentCreateView(CreateView):
     model = Student
     fields = ['first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled']
     template_name = 'student_records/student_form.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Register Student"
+        
+        return context
 
 class StudentUpdateView(UpdateView):
     '''
@@ -35,6 +41,12 @@ class StudentUpdateView(UpdateView):
     model = Student
     fields = ['first_name', 'last_name', 'major']
     template_name = 'student_records/student_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Student"
+        
+        return context
 
 class StudentDeleteView(DeleteView):
     '''

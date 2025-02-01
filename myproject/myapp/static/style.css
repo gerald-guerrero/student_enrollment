@@ -5,3 +5,7 @@ table, th, td {
     margin-right: auto;
     text-align: center;
 }
+
+h2, form {
+    text-align: center;
+}

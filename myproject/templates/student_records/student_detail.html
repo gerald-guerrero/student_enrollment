@@ -22,8 +22,16 @@
             <td>Enrolled</td>
             <td>{{student.semester_enrolled}} {{student.year_enrolled}}</td>
         </tr>
+        <tr>
+            <td>Sections</td>
+            <td>
+                {% for section in student.sections.all %}
+                    {{ section }}
+                    <br>
+                {% endfor %}
+            </td>
+        </tr>
     </table>
-
     <br>
     <table>
         <tr>
