@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from myapp.models import Student
+from .forms import EnrollmentForm
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -11,6 +12,7 @@ class StudentListView(ListView):
     '''
     model = Student
     template_name = 'student_records/student_list.html'
+    ordering = 'id'
 
 class StudentDetailView(DetailView):
     '''
@@ -45,6 +47,20 @@ class StudentUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Update Student"
+        
+        return context
+    
+class EnrollmentUpdateView(UpdateView):
+    '''
+    Handles updating the enrollments of a student
+    '''
+    model = Student
+    form_class = EnrollmentForm
+    template_name = 'student_records/student_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Enrollments"
         
         return context
 
