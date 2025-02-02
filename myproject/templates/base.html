@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block styling %}
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% endblock %}
     <meta charset="UTF-8">
     <title>
         {% block title %}Enrollment System{% endblock %}
