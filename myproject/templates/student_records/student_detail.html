@@ -22,25 +22,26 @@
             <td>Enrolled</td>
             <td>{{student.semester_enrolled}} {{student.year_enrolled}}</td>
         </tr>
+    </table>
+    <br>
+    <table>
+        <thead><th>Enrolled Sections</th></thead>
         <tr>
-            <td>Sections</td>
-            <td>
-                {% for section in student.sections.all %}
-                    {{ section }}
-                    <br>
-                {% endfor %}
-            </td>
+            <td>{{ student.get_sections_str|linebreaks }}</td>
         </tr>
     </table>
     <br>
     <table>
-        <tr>
-            <td>
-                <a href="{% url 'student_update' pk=student.pk %}">Update</a>
-            </td>
-            <td>
-                <a href="{% url 'student_delete' pk=student.pk %}">Delete</a>
-            </td>
-        </tr>
+        <thead><tr><th colspan="2">Student Options</th></tr></thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="{% url 'student_update' pk=student.pk %}">Update</a>
+                </td>
+                <td>
+                    <a href="{% url 'student_delete' pk=student.pk %}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
 {% endblock %}

@@ -39,6 +39,9 @@ class Student(models.Model):
     def __str__(self):
         return f"({self.id}) {self.first_name } {self.last_name}"
     
+    def get_sections_str(self):
+        return "\n".join([str(section) for section in self.sections.all()])
+    
     def get_absolute_url(self):
         return reverse("student_detail", kwargs={"pk": self.pk})
 
