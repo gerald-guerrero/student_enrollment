@@ -20,10 +20,3 @@ def enroll_section(request, pk):
         print("Attempting to enroll student to section: ", section)
         print("Will redirect to same section page afterwards")
     return redirect('section_update', pk=pk)
-
-def withdraw_section(request, pk):
-    section = get_object_or_404(Section, pk=pk)
-    if request.method == "POST":
-        print("Attempting to withdraw student from section: ", section)
-        print("Will redirect to same section page afterwards")
-    return redirect('section_update', pk=pk)

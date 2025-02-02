@@ -33,7 +33,7 @@
                         {{ section }}
                     </td>
                     <td>
-                        <form method="post" action="{% url 'student_withdraw_section' student_pk=student.pk section_pk=section.pk %}">
+                        <form method="post" action="{% url 'withdraw_section' student_pk=student.pk section_pk=section.pk %}">
                             {% csrf_token %}
                             <button type="submit" name="withdraw">Withdraw</button>
                         </form>        
