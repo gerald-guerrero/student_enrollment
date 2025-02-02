@@ -52,7 +52,7 @@
     <br>
     <form method="post" action="{% url 'withdraw_section' pk=section.pk %}">
         {% csrf_token %}
-        <button type="submit" name="enroll">Withdraw Test</button>
+        <button type="submit" name="withdraw">Withdraw Test</button>
     </form>
 
 {% endblock %}

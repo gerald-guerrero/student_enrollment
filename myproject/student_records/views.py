@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from myapp.models import Student
-from .forms import EnrollmentForm
+from myapp.models import Student, Section
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -49,20 +48,6 @@ class StudentUpdateView(UpdateView):
         context["title"] = "Update Student"
         
         return context
-    
-class EnrollmentUpdateView(UpdateView):
-    '''
-    Handles updating the enrollments of a student
-    '''
-    model = Student
-    form_class = EnrollmentForm
-    template_name = 'student_records/student_form.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Update Enrollments"
-        
-        return context
 
 class StudentDeleteView(DeleteView):
     '''
@@ -72,3 +57,14 @@ class StudentDeleteView(DeleteView):
     model = Student
     template_name = 'student_records/student_confirm_delete.html'
     success_url = reverse_lazy('student_list')
+
+def withdraw_section(request, student_pk, section_pk):
+    print(student_pk, section_pk)
+    student = get_object_or_404(Student, pk=student_pk)
+    section = get_object_or_404(Section, pk=section_pk)
+
+    if request.method == "POST":
+        print(f"{student} withdrawing from section: {section}")
+        student.sections.remove(section)
+    
+    return redirect('student_detail', pk=student_pk)
