@@ -35,3 +35,42 @@ DB_PORT=your_db_port
 >`python manage.py createsuperuser`
 10. Run the app with:
 >`python manage.py runserver`
+
+## Test Instructions
+### students records
+__Create__
+1. In the nav bar, click the `New Students Enroll` link 
+2. Fill out the form with the required information and submit
+
+__Read__
+1. Click the `Students` nav bar link to view a list of students
+2. Click the `view` link next to the student you just created
+
+__Update__
+1. Go to the student details page of the student you created
+2. Click the `Update Info` link to go to the update page
+3. Change any of the student fields and click submit
+
+__Delete__
+1. On the student details page, click the `Delete` link
+2. Confirm your deletion by clicking the `Delete` button
+
+### section records
+__Create__\
+Sections can only be created in the admin page, as students and staff\
+should not have create permissions for sections
+
+__Read__
+1. Click the `Sections` nav bar link to view a list of sections
+
+__Update__
+1. From the sections list page, click the `view` link to go to the\
+associated section page (it also functions as a section detail page)
+2. Edit the list of enrolled students by updating the checkbox and\
+click the submit button
+3. The `Enroll Test` button will enroll a student into a section but\
+will be fully implemented after account authentication is implemented
+
+__Delete__\
+Sections can only be deleted in the admin page, as students and staff\
+should not have delete permissions for sections

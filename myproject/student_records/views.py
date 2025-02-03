@@ -59,7 +59,10 @@ class StudentDeleteView(DeleteView):
     success_url = reverse_lazy('student_list')
 
 def withdraw_section(request, student_pk, section_pk):
-    print(student_pk, section_pk)
+    """
+    Withdraws student from section by removing student-section entry from many-to-many relationship
+    Redirects to the student detail page
+    """
     student = get_object_or_404(Student, pk=student_pk)
     section = get_object_or_404(Section, pk=section_pk)
 

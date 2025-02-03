@@ -4,6 +4,12 @@ from django.db.models import Value
 from django.db.models import Case, When
 
 class SectionStudentForm(forms.ModelForm):
+    """
+    Custom form to manage all student enrollments for this section
+    Provides a checkbox of all students with the enrolled students pre-checked
+    overrides __init__ to sort the checkbox fields with annotations by whether 
+    they are enrolled or not
+    """
     students = forms.ModelMultipleChoiceField(
         queryset=Student.objects.all(),
         widget=forms.CheckboxSelectMultiple,
