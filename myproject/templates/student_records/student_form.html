@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+    {% if student.pk %}
+        <a href="{% url 'student_detail' pk=student.pk %}">Back to Student Details</a>
+    {% endif %}
     <h2>{{ title }}</h2>
     <form method="post">
         {% csrf_token %}

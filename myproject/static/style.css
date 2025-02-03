@@ -9,3 +9,7 @@ table, thead, th, td {
 h2, form {
     text-align: center;
 }
+
+.centeredText {
+    text-align: center;
+}

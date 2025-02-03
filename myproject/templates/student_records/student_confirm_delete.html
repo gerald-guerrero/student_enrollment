@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Confirm Deletion</h2>
-
     <form method="post">
         {% csrf_token %}
         <button type="submit">Delete</button>
-        <br>
-        <br>
-        <a href="{% url 'student_detail' pk=student.pk %}">Go Back</a>
     </form>
+    <br>
+    <div class="centeredText">
+        <a href="{% url 'student_detail' pk=student.pk %}">Go Back</a>
+    </div>
+    
 {% endblock %}
