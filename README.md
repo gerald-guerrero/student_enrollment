@@ -72,8 +72,10 @@ __Update__
 will be fully implemented after account authentication is implemented
 2. From the sections detail page, click the `Update` link to go to the\
 section update page
-3. Edit the list of enrolled students by updating the checkbox and\
-click the submit button
+3. In the Enrolled Students table, click the `withdraw` button next to\
+the student you wish to remove from the section
+4. Select a student from the drop down menu and click `enroll` to enroll\
+the student into the associated section
 
 __Delete__\
 Sections can only be deleted in the admin page, as students and staff\

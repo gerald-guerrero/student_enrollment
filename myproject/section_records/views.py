@@ -2,10 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from myapp.models import Section, Student
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import UpdateView
 from .forms import SectionStudentForm
 from django.contrib import messages
-from django.core.exceptions import ValidationError
 
 class SectionListView(ListView):
     """

@@ -146,6 +146,10 @@ class Schedule(models.Model):
     def clean(self):
         if is_time_conflict([self], self.section.schedules.exclude(pk=self.pk).all()):
             raise ValidationError("Time Slots Overlap")
+        
+class SectionEnrollment(Section):
+    class Meta:
+        proxy = True
 
 def check_year(year):
     year_min = 2024
