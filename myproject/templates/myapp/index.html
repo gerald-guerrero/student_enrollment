@@ -1,31 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <table>
-        <tr>
-            <th>Major</th>
-            <th>Name</th>
-            <th>Section ID</th>
-            <th>Credits</th>
-            <th>Semester</th>
-            <th>Year</th>
-            <th>Professor</th>
-            <th>Schedule</th>
-            <th>Capacity</th>
-            <th>Students</th>
-        </tr>
-        {% for section in sections_info %}
-        <tr>
-            <td>{{ section.major }}</td>
-            <td>{{ section.name }}</td>
-            <td>{{ section.section_id }}</td>
-            <td>{{ section.credits }}</td>
-            <td>{{ section.semester }}</td>
-            <td>{{ section.year }}</td>
-            <td>{{ section.professor }}</td>
-            <td>{{ section.schedule|linebreaks }}</td>
-            <td>{{ section.capacity }}</td>
-            <td>{{ section.students|linebreaks }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h2>Home</h2>
+    <div class="centeredText">
+        <p>
+            Welcome to the Student Enrollment System.
+            <br>
+            Use the links in the nav to register a student, view available sections, and enroll for sections
+        </p>
+    </div>
 {% endblock %}
