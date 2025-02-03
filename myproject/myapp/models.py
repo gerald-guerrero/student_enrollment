@@ -3,6 +3,7 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.contrib import messages
 
 class Semesters(models.TextChoices):
     """
@@ -41,6 +42,12 @@ class Student(models.Model):
     
     def clean(self):
         check_year(self.year_enrolled)
+
+    def get_all_schedules(self):
+        sections = self.sections.all()
+        section_schedules = [section.schedules.all() for section in sections]
+        schedules = [schedule for section in section_schedules for schedule in section]
+        return schedules
     
     def get_absolute_url(self):
         return reverse("student_detail", kwargs={"pk": self.pk})
@@ -98,6 +105,13 @@ class Section(models.Model):
     
     def clean(self):
         check_year(self.year)
+
+    def is_full(self):
+        if self.students.all().count() >= self.size:
+            return True
+        
+    def get_schedules(self):
+        return self.schedules.all()
     
     def get_capacity_str(self):
         return f"{self.students.all().count()} / {self.size}"
@@ -130,7 +144,7 @@ class Schedule(models.Model):
         return f"{self.class_day}: {self.start_time} - {self.end_time}"
     
     def clean(self):
-        if not check_time_slots([self], self.section.schedules.exclude(pk=self.pk).all()):
+        if is_time_conflict([self], self.section.schedules.exclude(pk=self.pk).all()):
             raise ValidationError("Time Slots Overlap")
 
 def check_year(year):
@@ -139,41 +153,39 @@ def check_year(year):
     if not (year_min <= year <= year_max):
         raise ValidationError(f"Year selections must be between {year_min} - {year_max}")
 
-def check_time_slots(original_schedules, requested_schedules):
+def is_time_conflict(original_schedules, requested_schedules):
     # compares schedules to check if any time slots overlap with each other
     for original_slot in original_schedules:
         for requested_slot in requested_schedules:
             if (original_slot.start_time <= requested_slot.end_time and 
                 original_slot.end_time >= requested_slot.start_time and
                 original_slot.class_day == requested_slot.class_day):
-                return False
-    return True
+                return True
+    return False
 
 @receiver(m2m_changed, sender=Section.students.through)
-def section_max_limit(sender, instance, action, reverse, model, pk_set, **kwargs):
+def enrollment_change(sender, instance, action, reverse, model, pk_set, **kwargs):
     if (action !="pre_add"):
         print("not checking", action)
         return
 
     schedules = Schedule.objects
+
     if reverse:
-        student_sections = instance.sections.all()
         requested_sections = Section.objects.filter(pk__in=pk_set).all()
 
-        student_schedules = schedules.filter(section__in=student_sections).all()
+        student_schedules = instance.get_all_schedules()
         requested_schedules = schedules.filter(section__in=requested_sections).all()
 
-        if not check_time_slots(student_schedules, requested_schedules):
-            # prevents section registration if their is a time conflict
+        if is_time_conflict(student_schedules, requested_schedules):
+            # prevents all student enrollments for sections if there is a time conflict
             print("Time conflict. No sections will be enrolled")
             pk_set.clear()
         
         for pk in pk_set.copy():
             section = Section.objects.get(pk = pk)
-            limit = section.size
-            total_students = section.students.all().count()
-            if total_students >= limit:
-                # prevents registration for full sections
+            if section.is_full():
+                # prevents student enrollment for only full sections
                 print("Section is full. This section will not be enrolled")
                 pk_set.remove(pk)
         
@@ -183,13 +195,14 @@ def section_max_limit(sender, instance, action, reverse, model, pk_set, **kwargs
             
             student_schedules = schedules.filter(section__in=student_sections).all()
             requested_schedules = schedules.filter(section=instance).all()
-            if not check_time_slots(student_schedules, requested_schedules):
+            if is_time_conflict(student_schedules, requested_schedules):
+                # prevents section enrollments for only students that have a time conflict
                 print("time conflict: Student will not be enrolled")
                 pk_set.remove(pk)
 
         limit = instance.size
-        total_students = instance.students.all().count() + len(pk_set)
-        if total_students > limit:
-            # prevents section registration if it would push section above the size limit
+        future_total_students = instance.students.all().count() + len(pk_set)
+        if future_total_students > limit:
+            # prevents all section enrollments if it would push section above the size limit
             print("Section is full. No student will be enrolled")
             pk_set.clear()

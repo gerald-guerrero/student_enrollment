@@ -3,10 +3,40 @@
 <a href="{% url 'section_detail' pk=section.pk %}">Go back to section details</a>
     <h2>Section Enrollments Update</h2>
     {% include 'section_records/section_info.html' %}
-    <form method="post">
+    <br>
+    <table>
+        <tr>
+            <th colspan="2">Enrolled Students</th>
+        </tr>
+        {% for student in section.students.all %}
+            <tr>
+                <td>{{ student }}</td>
+                <td>
+                    <form method="post" name="withdraw">
+                        {% csrf_token %}
+                        <input type="hidden" name="stu_pk" value="{{ student.pk }}">
+                        <button type="submit" name="withdraw">Withdraw</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <div class="messages">
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <form method="post" name="enroll">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button type="submit" name="enroll">Enroll</button>
     </form>
     <br>
 {% endblock %}

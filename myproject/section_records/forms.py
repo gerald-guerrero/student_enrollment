@@ -1,45 +1,25 @@
 from django import forms
-from myapp.models import Section, Student
-from django.db.models import Value
-from django.db.models import Case, When
+from myapp.models import Section, Student, is_time_conflict
 from django.core.exceptions import ValidationError
 
 class SectionStudentForm(forms.ModelForm):
-    """
-    Custom form to manage all student enrollments for this section
-    Provides a checkbox of all students with the enrolled students pre-checked
-    overrides __init__ to sort the checkbox fields with annotations by whether 
-    they are enrolled or not
-    """
-    students = forms.ModelMultipleChoiceField(
-        queryset=Student.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
+    students = forms.ModelChoiceField(
+        queryset=Student.objects.all().order_by('id')
     )
+
     class Meta:
-        model = Section
+        model = Student
         fields = ['students']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        enrolled_students = self.instance.students.all().annotate(enrolled=Value(1))
-
-        all_students = Student.objects.all().annotate(
-            enrolled=Case(
-                When (pk__in=enrolled_students, then=Value(1)),
-                default=Value(2),
-            )
-        )
-        self.fields['students'].queryset = all_students.order_by('enrolled', 'id')
 
     def clean(self):
         cleaned_data = super().clean()
-        section_size = self.instance.size
-        selected_students_count = cleaned_data.get('students').count()
+        section = self.instance
+        student = cleaned_data.get('students')
 
-        if selected_students_count > section_size:
-            raise ValidationError("Current student selections push section above its capacity.\
-                                  Remove students and resubmit")
-    
+        if section.is_full():
+            raise ValidationError("Section is full. Enrollment will not occur")
+
+        if is_time_conflict(student.get_all_schedules(), section.get_schedules()):
+            raise ValidationError("Time conflict for selected student. Enrollment will not occur")
+
         return cleaned_data
