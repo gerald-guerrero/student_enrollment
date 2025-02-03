@@ -29,21 +29,23 @@ def section_update(request, pk):
     withdraw feature uses standard html form as it is just a button and a hidden student pk value
     """
     section = get_object_or_404(Section, pk=pk)
-    form = SectionStudentForm()
-
+    students = section.students.all().order_by('id')
+    
+    form = SectionStudentForm(instance=section)
     if (request.method == 'POST') and ("enroll" in request.POST):
         form = SectionStudentForm(request.POST, instance=section)
         if form.is_valid():
             student = form.cleaned_data['students']
             print(f"enrolling {student} into section: {section}")
             section.students.add(student)
+            form = SectionStudentForm(instance=section)
     elif (request.method == 'POST') and ("withdraw" in request.POST):
         stu_pk = int(request.POST.get('stu_pk'))
         student = get_object_or_404(Student, pk=stu_pk)
         print(student, "withdrawing", section)
         section.students.remove(student)
 
-    return render(request, "section_records/section_update.html", {"section": section, "form": form})
+    return render(request, "section_records/section_update.html", {"section": section, "students": students, "form": form})
 
 def enroll_section(request, pk):
     """
