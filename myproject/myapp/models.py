@@ -39,11 +39,13 @@ class Student(models.Model):
     def __str__(self):
         return f"({self.id}) {self.first_name } {self.last_name}"
     
-    def get_sections_str(self):
-        return "\n".join([str(section) for section in self.sections.all()])
+    def clean(self):
+        check_year(self.year_enrolled)
     
     def get_absolute_url(self):
         return reverse("student_detail", kwargs={"pk": self.pk})
+    
+    
 
 class Professor(models.Model):
     """
@@ -94,6 +96,9 @@ class Section(models.Model):
     def __str__(self):
         return f"({self.id}) {self.course.name}, {self.semester} {self.year}"
     
+    def clean(self):
+        check_year(self.year)
+    
     def get_capacity_str(self):
         return f"{self.students.all().count()} / {self.size}"
     
@@ -128,6 +133,11 @@ class Schedule(models.Model):
         if not check_time_slots([self], self.section.schedules.exclude(pk=self.pk).all()):
             raise ValidationError("Time Slots Overlap")
 
+def check_year(year):
+    year_min = 2024
+    year_max = 2100
+    if not (year_min <= year <= year_max):
+        raise ValidationError(f"Year selections must be between {year_min} - {year_max}")
 
 def check_time_slots(original_schedules, requested_schedules):
     # compares schedules to check if any time slots overlap with each other
