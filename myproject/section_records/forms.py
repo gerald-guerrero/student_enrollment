@@ -2,6 +2,7 @@ from django import forms
 from myapp.models import Section, Student
 from django.db.models import Value
 from django.db.models import Case, When
+from django.core.exceptions import ValidationError
 
 class SectionStudentForm(forms.ModelForm):
     """
@@ -31,3 +32,13 @@ class SectionStudentForm(forms.ModelForm):
             )
         )
         self.fields['students'].queryset = all_students.order_by('enrolled', 'id')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        section_size = self.instance.size
+        selected_students_count = cleaned_data.get('students').count()
+
+        if selected_students_count > section_size:
+            raise ValidationError("Current student selections push section above its capacity")
+    
+        return cleaned_data

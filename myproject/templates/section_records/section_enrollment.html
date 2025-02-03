@@ -45,6 +45,17 @@
         <button type="submit">Submit</button>
     </form>
     <br>
+    <div class="messages">
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
     <form method="post" action="{% url 'enroll_section' pk=section.pk %}">
         {% csrf_token %}
         <button type="submit" name="enroll">Enroll Test</button>

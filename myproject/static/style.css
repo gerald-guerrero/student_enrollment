@@ -13,3 +13,8 @@ h2, form {
 .centeredText {
     text-align: center;
 }
+.messages {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}

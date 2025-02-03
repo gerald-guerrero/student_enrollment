@@ -4,6 +4,7 @@ from myapp.models import Section
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from .forms import SectionStudentForm
+from django.contrib import messages
 
 class SectionListView(ListView):
     """
@@ -28,6 +29,10 @@ def enroll_section(request, pk):
     Will fully implement after authentication is implemented
     """
     section = get_object_or_404(Section, pk=pk)
+    if section.students.all().count() >= section.size:
+        print("Section is full")
+        messages.error(request, "Section is full. Section will not be added to your enrollments")
+        
     if request.method == "POST":
         print("Attempting to enroll student to section: ", section)
         print("Will redirect to same section page afterwards")
