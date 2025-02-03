@@ -48,8 +48,10 @@ __Read__
 
 __Update__
 1. Go to the student details page of the student you created
-2. Click the `Update Info` link to go to the update page
-3. Change any of the student fields and click submit
+2. Click the `Withdraw` button next to a section to withdraw\
+from the associated section for the current student
+3. Click the `Update Info` link to go to the update page
+4. Change any of the student fields and click submit
 
 __Delete__
 1. On the student details page, click the `Delete` link
@@ -62,14 +64,16 @@ should not have create permissions for sections
 
 __Read__
 1. Click the `Sections` nav bar link to view a list of sections
+2. Click the `view` link next to a section to view the associated\
+section detail page
 
 __Update__
-1. From the sections list page, click the `view` link to go to the\
-associated section page (it also functions as a section detail page)
-2. Edit the list of enrolled students by updating the checkbox and\
-click the submit button
-3. The `Enroll Test` button will enroll a student into a section but\
+1. The `Enroll Test` button will enroll a student into a section but\
 will be fully implemented after account authentication is implemented
+2. From the sections detail page, click the `Update` link to go to the\
+section update page
+3. Edit the list of enrolled students by updating the checkbox and\
+click the submit button
 
 __Delete__\
 Sections can only be deleted in the admin page, as students and staff\

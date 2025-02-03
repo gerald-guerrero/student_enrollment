@@ -21,7 +21,7 @@
                 <td>{{ section.year }}</td>
                 <td>{{ section.get_capacity_str }}</td>
                 <td>{{ section.get_schedules_str|linebreaks }}</td>
-                <td><a href="{% url 'section_update' pk=section.pk %}">view</a></td>
+                <td><a href="{% url 'section_detail' pk=section.pk %}">view</a></td>
             </tr>
         {% endfor %}
     </table>

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{% url 'section_detail' pk=section.pk %}">Go back to section details</a>
+    <h2>Section Enrollments Update</h2>
+    {% include 'section_records/section_info.html' %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+{% endblock %}

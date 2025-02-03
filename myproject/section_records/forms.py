@@ -39,6 +39,7 @@ class SectionStudentForm(forms.ModelForm):
         selected_students_count = cleaned_data.get('students').count()
 
         if selected_students_count > section_size:
-            raise ValidationError("Current student selections push section above its capacity")
+            raise ValidationError("Current student selections push section above its capacity.\
+                                  Remove students and resubmit")
     
         return cleaned_data

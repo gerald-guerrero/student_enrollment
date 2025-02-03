@@ -1,0 +1,38 @@
+<table>
+    <tr>
+        <td>Major</td>
+        <td>{{ section.course.major }}</td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>{{ section.course.name }}</td>
+    </tr>
+    <tr>
+        <td>Section ID</td>
+        <td>{{ section.id }}</td>
+    </tr>
+    <tr>
+        <td>Credits</td>
+        <td>{{ section.course.credits }}</td>
+    </tr>
+    <tr>
+        <td>Semester</td>
+        <td>{{ section.semester }}</td>
+    </tr>
+    <tr>
+        <td>Year</td>
+        <td>{{ section.year }}</td>
+    </tr>
+    <tr>
+        <td>Professor</td>
+        <td>{{ section.professor }}</td>
+    </tr>
+    <tr>
+        <td>Schedule</td>
+        <td>{{ section.get_schedules_str|linebreaks }}</td>
+    </tr>
+    <tr>
+        <td>Capacity</td>
+        <td>{{ section.get_capacity_str }}</td>
+    </tr>
+</table>

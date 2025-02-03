@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Section Details</h2>
+    {% include 'section_records/section_info.html' %}
+    <br>
+    <div class="centeredText">
+        <a href="{% url 'section_update' pk=section.pk %}">Update</a>
+    </div>
+    <br>
+    <div class="messages">
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <form method="post" action="{% url 'enroll_section' pk=section.pk %}">
+        {% csrf_token %}
+        <button type="submit" name="enroll">Enroll Test</button>
+    </form>
+{% endblock %}
