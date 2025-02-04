@@ -4,9 +4,16 @@
         <a href="{% url 'student_detail' pk=student.pk %}">Back to Student Details</a>
     {% endif %}
     <h2>{{ title }}</h2>
+    <table>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        {{ form.as_table }}
+        <tr>
+            <td colspan="2">
+                <button type="submit">Submit</button>
+            </td>
+        </tr>
+    </table>
     </form>
+    
 {% endblock %}
