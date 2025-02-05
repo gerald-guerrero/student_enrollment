@@ -3,7 +3,7 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.contrib import messages
+from django.contrib.auth.models import User
 
 class Semesters(models.TextChoices):
     """
@@ -27,15 +27,19 @@ class Major(models.Model):
 
 class Student(models.Model):
     """
+    Has a one to one relationship with Django User
     Contains all relevant information for students including name, major, as well as the semester
     and year they enrolled for
     Has a many to many relation with section
     """
+    YEAR_CHOICES = [(year, year) for year in range(2024, 2100)]
+    
+    user = models.OneToOneField(User, related_name="student", related_query_name="student", on_delete=models.CASCADE)
     major = models.ForeignKey(Major, related_name="students", related_query_name="student", on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     semester_enrolled = models.CharField(max_length=10, choices=Semesters.choices, help_text="Select the semester the student will begin classes")
-    year_enrolled = models.IntegerField(help_text="Provide the year the student will begin classes")
+    year_enrolled = models.IntegerField(choices=YEAR_CHOICES, help_text="Select the year the student will begin classes")
     
     def __str__(self):
         return f"({self.id}) {self.first_name } {self.last_name}"
