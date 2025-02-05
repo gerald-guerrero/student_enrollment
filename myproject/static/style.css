@@ -1,3 +1,22 @@
+.feature_links {
+    float: left;
+    width: 50%;
+}
+
+.account_links {
+    float: right;
+    width: 25%;
+    padding-right: 10px;
+}
+.account_links a {
+    float: right;
+}
+
+a {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 table, thead, th, td {
     border: 1px solid black;
     border-collapse: collapse;

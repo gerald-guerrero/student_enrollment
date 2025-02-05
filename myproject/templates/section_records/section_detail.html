@@ -4,7 +4,9 @@
     {% include 'section_records/section_info.html' %}
     <br>
     <div class="centeredText">
-        <a href="{% url 'section_update' pk=section.pk %}">Update</a>
+        {% if request.user.is_staff %}
+            <a href="{% url 'section_update' pk=section.pk %}">Update</a>
+        {% endif %}
     </div>
     <br>
     <div class="messages">
