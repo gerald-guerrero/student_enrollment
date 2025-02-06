@@ -6,8 +6,18 @@
 - Django 5.1.5
 - psycopg 3.2.4
 - dgango-environ 0.12.0
+- django-allauth 65.3.1
+- django-allauth[socialaccount]
 
 ## Instructions
+### Google API Setup for Allauth
+1. Go to https://console.cloud.google.com/
+2. In the sidebar, go to __APIs & Services__ then > __Credentials__ > __CREATE CREDENTIALS__ >__OAuth client ID__
+3. Set application type to Web application and __Authorized redirect URIs to `http://127.0.0.1:8000/accounts/google/login/callback/`
+4. Continue the application process (it make ask you to fill out an additonal process)
+5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
+
+### Cloning Repository
 1. In a terminal, navigate to your preferred directory and use the command:
 >`git clone https://github.com/gerald-guerrero/student_enrollment.git`
 2. CD into the repository:
@@ -18,9 +28,11 @@
 >`venv\Scripts\activate`
 5. Install all dependencies:
 >`pip install -r requirements.txt`
-6. CD into the project:
+
+### Database Setup
+1. CD into the root myproject directory:
 >`cd myproject`
-7. create a .env file in the the current directory and fill out the following environmental variables\
+2. create a .env file in the the current directory and fill out the following environmental variables\
 with your postgresql database information
 ```bash
 DB_NAME=your_db_name
@@ -29,12 +41,22 @@ DB_PASSWORD=your_db_password
 DB_HOST=your_db_host
 DB_PORT=your_db_port
 ```
-8. create db tables in your database:
+3. create db tables and allauth  in your database:
 >`python manage.py migrate`
-9. create a superuser for the admin page
+4. create a superuser for the admin page
 >`python manage.py createsuperuser`
-10. Run the app with:
+
+### Finalize Setup
+1. While in the root directory, myproject:
 >`python manage.py runserver`
+2. Go http://127.0.0.1:8000/admin and sign in to the admin page with the superuser credentials
+3. Go to __Social applications__
+4. Click __ADD SOCIAL APPLICATION__
+5. Fill out the form with the __Client ID__ and __Secret Key__ you received from the Google API setup
+6. In the __Sites__ field, add localhost to __Chosen site__. You may need to create it with the green plus button
+7. In the top right, click __logout__
+8. Click the __login__ button the click __Sign Up__
+9. Either go through sign up form or sign in with Google with the bottom link\
 
 ## Test Instructions
 ### students records
