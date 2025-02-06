@@ -66,9 +66,9 @@ def withdraw_section(request, student_pk, section_pk):
     Withdraws student from section by removing student-section entry from many-to-many relationship
     Redirects to the student detail page
     """
-    if not is_owner_or_staff(request, student_pk):
+    if request.user.student.id != student_pk:
         raise PermissionDenied
-    
+
     student = request.user.student
     section = get_object_or_404(Section, pk=section_pk)
 
