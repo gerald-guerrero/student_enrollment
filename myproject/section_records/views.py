@@ -4,6 +4,9 @@ from myapp.models import Section, Student
 from django.views.generic import ListView, DetailView
 from .forms import SectionStudentForm
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import PermissionDenied
+from myapp.user_status import user_is_student, user_is_staff
 
 class SectionListView(ListView):
     """
@@ -20,7 +23,8 @@ class SectionDetailView(DetailView):
 
     model = Section
     template_name = 'section_records/section_detail.html'
-
+    
+@user_passes_test(user_is_staff)
 def section_update(request, pk):
     """
     Handles staff authorised enrollments and withdrawls for the associated section
@@ -47,17 +51,19 @@ def section_update(request, pk):
 
     return render(request, "section_records/section_update.html", {"section": section, "students": students, "form": form})
 
+@user_passes_test(user_is_student)
 def enroll_section(request, pk):
     """
     Handles a student enrolling into a section by getting the referenced section
     Will fully implement after authentication is implemented
     """
+    student = request.user.student
     section = get_object_or_404(Section, pk=pk)
     if section.is_full():
         print("Section is full")
         messages.error(request, "Section is full. Section will not be added to your enrollments")
         
     if request.method == "POST":
-        print("Attempting to enroll student to section: ", section)
+        print("Attempting to enroll student", student, "to section:", section)
         print("Will redirect to same section page afterwards")
     return redirect('section_detail', pk=pk)
