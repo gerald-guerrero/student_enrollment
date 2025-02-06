@@ -7,5 +7,16 @@
             <br>
             Use the links in the nav to register a student, view available sections, and enroll for sections
         </p>
+        <div class="messages">
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

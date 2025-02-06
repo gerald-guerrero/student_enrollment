@@ -44,6 +44,11 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 
+ACCOUNT_FORMS = {'signup': 'myapp.forms.StudentSignupForm'}
+SOCIALACCOUNT_FORMS = {'signup': 'myapp.forms.StudentSignupForm'}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Application definition
 
 INSTALLED_APPS = [
