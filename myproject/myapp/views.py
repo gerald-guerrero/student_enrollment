@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .models import Section
+from django.contrib.auth.decorators import login_not_required
 
-# Create your views here.
+@login_not_required
 def homepage(request):
     """
     Basic homepage FBV. Renders index.html template with all features

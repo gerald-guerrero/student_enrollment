@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
 from myapp.models import Student, Section
 from django.urls import reverse_lazy
 
@@ -19,20 +19,6 @@ class StudentDetailView(DetailView):
     '''
     model = Student
     template_name = 'student_records/student_detail.html'
-
-class StudentCreateView(CreateView):
-    '''
-    Handles the creation of new students by auto generating a form based on the student model
-    '''
-    model = Student
-    fields = ['first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled']
-    template_name = 'student_records/student_form.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Register Student"
-        
-        return context
 
 class StudentUpdateView(UpdateView):
     '''
