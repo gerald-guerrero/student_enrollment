@@ -1,4 +1,5 @@
 from allauth.account.forms import SignupForm
+from allauth.socialaccount.forms import SignupForm as SocialForm
 from django import forms
 from .models import Student
 from django.core.exceptions import ValidationError
@@ -50,3 +51,34 @@ class StudentSignupForm(SignupForm):
 
         return user
 
+class SocialSignupForm(SocialForm):
+    """
+    Sign up form is extended from allauth social signup form to also create a Student profile
+    that will be linked to the user.
+    fields are taken from the StudentDetailsForm model form, so that the fields are auto
+    generated to match the Student model
+    Separate form was needed for social account signup due to issues with using one form for
+    both regular and social sign up processes
+    """
+    student_fields = StudentDetailsForm.base_fields
+    first_name = student_fields['first_name']
+    last_name = student_fields['last_name']
+    major = student_fields['major']
+    semester_enrolled = student_fields['semester_enrolled']
+    year_enrolled = student_fields['year_enrolled']
+
+    def save(self, request):
+        user = super(SocialSignupForm, self).save(request)
+
+        cleaned_data = self.cleaned_data
+
+        Student.objects.create(
+            user=user,
+            first_name=cleaned_data['first_name'],
+            last_name=cleaned_data['last_name'],
+            major=cleaned_data['major'],
+            semester_enrolled=cleaned_data['semester_enrolled'],
+            year_enrolled=cleaned_data['year_enrolled']
+        )
+
+        return user

@@ -44,8 +44,9 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 
+SOCIALACCOUNT_AUTO_SIGNUP = False
 ACCOUNT_FORMS = {'signup': 'myapp.forms.StudentSignupForm'}
-SOCIALACCOUNT_FORMS = {'signup': 'myapp.forms.StudentSignupForm'}
+SOCIALACCOUNT_FORMS = {'signup': 'myapp.forms.SocialSignupForm'}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
