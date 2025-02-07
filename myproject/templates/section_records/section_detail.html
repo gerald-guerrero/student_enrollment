@@ -20,8 +20,10 @@
             </ul>
         {% endif %}
     </div>
+    {% if is_enrolled %}
     <form method="post" action="{% url 'enroll_section' pk=section.pk %}">
         {% csrf_token %}
         <button type="submit" name="enroll">Enroll Test</button>
     </form>
+    {% endif %}
 {% endblock %}

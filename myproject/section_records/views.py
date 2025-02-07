@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from myapp.models import Section, Student
+from myapp.models import Section, Student, is_time_conflict
 from django.views.generic import ListView, DetailView
 from .forms import SectionStudentForm
 from django.contrib import messages
@@ -23,6 +23,20 @@ class SectionDetailView(DetailView):
 
     model = Section
     template_name = 'section_records/section_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        user = self.request.user
+        section = context['section']
+
+        if (not user.is_staff):
+            if (not section in user.student.sections.all()):
+                context["is_enrolled"] = True
+        else:
+            context["is_enrolled"] = False
+        
+        return context
     
 @user_passes_test(user_is_staff)
 def section_update(request, pk):
@@ -60,10 +74,14 @@ def enroll_section(request, pk):
     student = request.user.student
     section = get_object_or_404(Section, pk=pk)
     if section.is_full():
-        print("Section is full")
         messages.error(request, "Section is full. Section will not be added to your enrollments")
+        return redirect('section_detail', pk=pk)
+    elif is_time_conflict(student.get_all_schedules(), section.get_schedules()):
+        messages.error(request, "Time Conflict. Section will not be added to your enrollments")
+        return redirect('section_detail', pk=pk)
         
     if request.method == "POST":
         print("Attempting to enroll student", student, "to section:", section)
         print("Will redirect to same section page afterwards")
+        student.sections.add(section)
     return redirect('section_detail', pk=pk)
