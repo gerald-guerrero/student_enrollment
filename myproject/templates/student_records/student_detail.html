@@ -32,12 +32,14 @@
                     <td>
                         {{ section }}
                     </td>
-                    <td>
-                        <form method="post" action="{% url 'withdraw_section' student_pk=student.pk section_pk=section.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" name="withdraw">Withdraw</button>
-                        </form>        
-                    </td>
+                    {% if not request.user.is_staff %}
+                        <td>
+                            <form method="post" action="{% url 'withdraw_section' student_pk=student.pk section_pk=section.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" name="withdraw">Withdraw</button>
+                            </form>        
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

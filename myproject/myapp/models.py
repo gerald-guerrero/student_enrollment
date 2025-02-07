@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_delete
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -170,6 +170,10 @@ def is_time_conflict(original_schedules, requested_schedules):
                 original_slot.class_day == requested_slot.class_day):
                 return True
     return False
+
+@receiver(post_delete, sender=Student)
+def delete_student_user(sender, instance, **kwargs):
+    instance.user.delete()
 
 @receiver(m2m_changed, sender=Section.students.through)
 def enrollment_change(sender, instance, action, reverse, model, pk_set, **kwargs):

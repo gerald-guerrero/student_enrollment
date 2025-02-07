@@ -55,7 +55,7 @@ class StudentDeleteView(UserPassesTestMixin, DeleteView):
     '''
     model = Student
     template_name = 'student_records/student_confirm_delete.html'
-    success_url = reverse_lazy('student_list')
+    success_url = reverse_lazy('homepage')
 
     def test_func(self):
         return is_owner_or_staff(self)
