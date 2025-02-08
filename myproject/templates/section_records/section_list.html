@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Sections List</h2>
-    <table>
+    <h2 class="centeredItem">Sections List</h2>
+    <table class="table table-bordered table-hover">
         <tr>
             <th>Major</th>
             <th>Name</th>
@@ -21,8 +21,19 @@
                 <td>{{ section.year }}</td>
                 <td>{{ section.get_capacity_str }}</td>
                 <td>{{ section.get_schedules_str|linebreaks }}</td>
-                <td><a href="{% url 'section_detail' pk=section.pk %}">view</a></td>
+                <td><a class="btn btn-primary" role="button" href="{% url 'section_detail' pk=section.pk %}">view</a></td>
             </tr>
         {% endfor %}
     </table>
+    <div class="messages">
+        {% if messages %}
+            <ul class="list-group">
+                {% for message in messages %}
+                    <li class="list-group-item list-group-item-info">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}

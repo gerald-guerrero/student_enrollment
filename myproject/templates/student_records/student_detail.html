@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Student Details</h2>
-    <table>
+    <h2 class="centeredItem">Student Details</h2>
+    <table class="table table-striped">
         <tr>
             <td>Student ID</td>
             <td>{{student.id}}</td>
@@ -24,7 +24,7 @@
         </tr>
     </table>
     <br>
-    <table>
+    <table class="table table-striped">
         <thead><th colspan="2">Enrolled Sections</th></thead>
         <tbody>
             {% for section in student.sections.all %}
@@ -36,7 +36,7 @@
                         <td>
                             <form method="post" action="{% url 'withdraw_section' student_pk=student.pk section_pk=section.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" name="withdraw">Withdraw</button>
+                                <button class="btn btn-danger" type="submit" name="withdraw">Withdraw</button>
                             </form>        
                         </td>
                     {% endif %}
@@ -45,15 +45,15 @@
         </tbody>
     </table>
     <br>
-    <table>
+    <table class="table">
         <thead><th colspan="2">Student Options</th></thead>
         <tbody>
             <tr>
                 <td>
-                    <a href="{% url 'student_update' pk=student.pk %}">Update Info</a>
+                    <a class="btn btn-primary" role="button" href="{% url 'student_update' pk=student.pk %}">Update Info</a>
                 </td>
                 <td>
-                    <a href="{% url 'student_delete' pk=student.pk %}">Delete</a>
+                    <a class="btn btn-warning" role="button" href="{% url 'student_delete' pk=student.pk %}">Delete</a>
                 </td>
             </tr>
         </tbody>

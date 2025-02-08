@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Confirm Deletion</h2>
-    <form method="post">
+    <h2 class="centeredItem">Confirm Deletion</h2>
+    <form class="centeredItem" method="post">
         {% csrf_token %}
-        <button type="submit">Delete</button>
+        <button class="btn btn-danger" type="submit">Delete</button>
     </form>
     <br>
-    <div class="centeredText">
-        <a href="{% url 'student_detail' pk=student.pk %}">Go Back</a>
+    <div class="centeredItem">
+        <a class="btn btn-primary" role="button" href="{% url 'student_detail' pk=student.pk %}">Go Back</a>
     </div>
     
 {% endblock %}

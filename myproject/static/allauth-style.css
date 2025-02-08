@@ -1,0 +1,6 @@
+.errorlist {
+    list-style-type: none;
+    background-color: lightcoral;
+    font-size: x-large;
+    text-align: center;
+}

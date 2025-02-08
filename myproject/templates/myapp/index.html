@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Home</h2>
-    <div class="centeredText">
+    <h2 class="centeredItem">Home</h2>
+    <div class="centeredItem">
         <p>
             Welcome to the Student Enrollment System.
             <br>
@@ -9,9 +9,9 @@
         </p>
         <div class="messages">
             {% if messages %}
-                <ul>
+                <ul class="list-group">
                     {% for message in messages %}
-                        <li>
+                        <li class="list-group-item list-group-item-info">
                             {{ message }}
                         </li>
                     {% endfor %}
