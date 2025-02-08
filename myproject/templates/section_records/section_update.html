@@ -6,11 +6,11 @@
     <br>
     <table class="table table-hover">
         <tr>
-            <th colspan="2">Enrolled Students</th>
+            <th class="centeredItem" colspan="2">Enrolled Students</th>
         </tr>
         {% for student in students %}
             <tr>
-                <td>{{ student }}</td>
+                <td class="rightItem">{{ student }}</td>
                 <td>
                     <form method="post" name="withdraw">
                         {% csrf_token %}
