@@ -73,6 +73,7 @@ def enroll_section(request, pk):
     """
     student = request.user.student
     section = get_object_or_404(Section, pk=pk)
+    
     if section.is_full():
         messages.error(request, "Section is full. Section will not be added to your enrollments")
         return redirect('section_detail', pk=pk)

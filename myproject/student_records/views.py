@@ -61,20 +61,18 @@ class StudentDeleteView(UserPassesTestMixin, DeleteView):
         return is_owner_or_staff(self)
 
 @user_passes_test(user_is_student)
-def withdraw_section(request, student_pk, section_pk):
+def withdraw_section(request, pk):
     """
     Withdraws student from section by removing student-section entry from many-to-many relationship
     Redirects to the student detail page
     """
-    if request.user.student.id != student_pk:
-        raise PermissionDenied
 
     student = request.user.student
-    section = get_object_or_404(Section, pk=section_pk)
+    section = get_object_or_404(Section, pk=pk)
 
     if request.method == "POST":
         print(f"{student} withdrawing from section: {section}")
         student.sections.remove(section)
     
-    return redirect('student_detail', pk=student_pk)
+    return redirect('student_detail', pk=student.pk)
 
