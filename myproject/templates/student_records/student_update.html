@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if student.pk %}
+        <a  class="btn btn-secondary" role="button" href="{% url 'student_detail' pk=student.pk %}">Go Back</a>
+    {% endif %}
+    <h2 class="centeredItem">Update Student Details</h2>
+    <table class="table">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <tr>
+                <td colspan="2" class="centeredItem">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </td>
+            </tr>
+        </form>
+    </table>
+    <br>
+    {% if not request.user.is_staff %}
+        <h3 class="centeredItem">Update Account Info</h3>
+        <ul class="list-group">
+            <li class="centeredItem list-group-item">
+                <a class="btn btn-secondary" role="button" href="{% url 'account_email' %}">Change Email</a>
+            </li>
+            <li class="centeredItem list-group-item">
+                <a class="btn btn-secondary" role="button" href="{% url 'account_change_password' %}">Change Password</a>
+            </li>
+            <li class="centeredItem list-group-item">
+                <a class="btn btn-secondary" role="button" href="{% url 'socialaccount_connections' %}"> Account Connections</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}

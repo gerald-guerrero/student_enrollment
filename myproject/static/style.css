@@ -26,6 +26,10 @@
     text-align: center;
 }
 
+tbody tr th {
+    text-align: right;
+}
+
 body {
     width: 95%;
     margin-left: auto;

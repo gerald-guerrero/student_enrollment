@@ -2,26 +2,28 @@
 {% block content %}
     <h2 class="centeredItem">Student Details</h2>
     <table class="table table-striped table-bordered">
-        <tr>
-            <th class="rightItem">Student ID</th>
-            <td>{{student.id}}</td>
-        </tr>
-        <tr>
-            <th class="rightItem">First Name</th>
-            <td>{{student.first_name}}</td>
-        </tr>
-        <tr>
-            <th class="rightItem">Last Name</th>
-            <td>{{student.last_name}}</td>
-        </tr>
-        <tr>
-            <th class="rightItem">Major</th>
-            <td>{{student.major}}</td>
-        </tr>
-        <tr>
-            <th class="rightItem">Enrolled</th>
-            <td>{{student.semester_enrolled}} {{student.year_enrolled}}</td>
-        </tr>
+        <tbody>
+            <tr>
+                <th>Student ID</th>
+                <td>{{student.id}}</td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td>{{student.first_name}}</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>{{student.last_name}}</td>
+            </tr>
+            <tr>
+                <th>Major</th>
+                <td>{{student.major}}</td>
+            </tr>
+            <tr>
+                <th>Enrolled</th>
+                <td>{{student.semester_enrolled}} {{student.year_enrolled}}</td>
+            </tr>
+        </tbody>
     </table>
     <br>
     <table class="table table-striped table-bordered">

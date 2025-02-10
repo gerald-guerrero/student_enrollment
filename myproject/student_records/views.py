@@ -37,13 +37,7 @@ class StudentUpdateView(UserPassesTestMixin, UpdateView):
     '''
     model = Student
     fields = ['first_name', 'last_name', 'major']
-    template_name = 'student_records/student_form.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Update Student"
-        
-        return context
+    template_name = 'student_records/student_update.html'
     
     def test_func(self):
         return is_owner_or_staff(self)

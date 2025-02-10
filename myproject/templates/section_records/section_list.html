@@ -2,28 +2,32 @@
 {% block content %}
     <h2 class="centeredItem">Sections List</h2>
     <table class="table table-bordered table-hover">
-        <tr>
-            <th>Major</th>
-            <th>Name</th>
-            <th>Section ID</th>
-            <th>Semester</th>
-            <th>Year</th>
-            <th>Capacity</th>
-            <th>Schedule</th>
-            <th>Options</th>
-        </tr>
-        {% for section in section_list %}
+        <thead>
             <tr>
-                <td>{{ section.course.major }}</td>
-                <td>{{ section.course.name }}</td>
-                <td>{{ section.id }}</td>
-                <td>{{ section.semester }}</td>
-                <td>{{ section.year }}</td>
-                <td>{{ section.get_capacity_str }}</td>
-                <td>{{ section.get_schedules_str|linebreaks }}</td>
-                <td><a class="btn btn-primary" role="button" href="{% url 'section_detail' pk=section.pk %}">view</a></td>
+                <th>Major</th>
+                <th>Name</th>
+                <th>Section ID</th>
+                <th>Semester</th>
+                <th>Year</th>
+                <th>Capacity</th>
+                <th>Schedule</th>
+                <th>Options</th>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for section in section_list %}
+                <tr>
+                    <td>{{ section.course.major }}</td>
+                    <td>{{ section.course.name }}</td>
+                    <td>{{ section.id }}</td>
+                    <td>{{ section.semester }}</td>
+                    <td>{{ section.year }}</td>
+                    <td>{{ section.get_capacity_str }}</td>
+                    <td>{{ section.get_schedules_str|linebreaks }}</td>
+                    <td><a class="btn btn-primary" role="button" href="{% url 'section_detail' pk=section.pk %}">view</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <div class="messages">
         {% if messages %}
