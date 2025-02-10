@@ -46,7 +46,7 @@ DB_PORT=your_db_port
 4. create a superuser for the admin page
 >`python manage.py createsuperuser`
 
-### Finalize Setup
+### Admin Page Setup
 1. While in the root directory, myproject:
 >`python manage.py runserver`
 2. Go http://127.0.0.1:8000/admin and sign in to the admin page with the superuser credentials
@@ -54,51 +54,68 @@ DB_PORT=your_db_port
 4. Click __ADD SOCIAL APPLICATION__
 5. Fill out the form with the __Client ID__ and __Secret Key__ you received from the Google API setup
 6. In the __Sites__ field, add localhost to __Chosen site__. You may need to create it with the green plus button
-7. In the top right, click __logout__
-8. Click the __login__ button the click __Sign Up__
-9. Either go through sign up form or sign in with Google with the bottom link\
+7. Go to __Groups__ and click __ADD GROUP__
+8. Name it "staff" and add the following permissions 
+    - Myapp | course | can view course
+    - Myapp | major | can view major
+    - Myapp | professor | can view professor
+    - Myapp | schedule | can view schedule
+    - Myapp | section | can view section
+    - Myapp | section enrollment | can change section enrollment
+    - Myapp | section enrollment | can view section enrollment
+    - Myapp | student | can change student
+    - Myapp | student | can delete student
+    - Myapp | student | can view student
+
+### Account Creation
+1. To create a staff user, go to __Users__ and click __ADD USER__ in the top right
+2. Fill out the login credentials and create the user
+3. For the newly created user, click __Staff status__ to make it active and in __Groups__ add the "staff" group, then save
+4. To create a student user, click __logout__ in the top right
+5. Click the __login__ button the click __Sign Up__
+6. Either go through sign up form or sign in with Google with the bottom link
 
 ## Test Instructions
 ### students records
-__Create__
-1. In the nav bar, click the `New Students Enroll` link 
-2. Fill out the form with the required information and submit
+- __Create__
+1. In the nav bar, click the `Login` link 
+2. Click the `Sign Up` link in the top menu
+3. Fill out the form to create a student user or click the Google login option to sign up with Google
 
-__Read__
-1. Click the `Students` nav bar link to view a list of students
-2. Click the `view` link next to the student you just created
+- __Read__
+1. For student users, click the `Profile` link in the nav bar
+2. For staff users, click the `Students` link and click the `view` button of any student
 
-__Update__
-1. Go to the student details page of the student you created
-2. Click the `Withdraw` button next to a section to withdraw\
-from the associated section for the current student
-3. Click the `Update Info` link to go to the update page
-4. Change any of the student fields and click submit
+- __Update__
+1. On the `Student Details` page, click the `Update Info` button under `Student Options`
+2. Change any of the student fields and click `Submit` to change the student's information
+3. Student users will see an extra `Withdraw` button next to each enrolled section which can be\
+clicked to remove that section from the student's sections
 
-__Delete__
+- __Delete__
 1. On the student details page, click the `Delete` link
 2. Confirm your deletion by clicking the `Delete` button
 
 ### section records
-__Create__\
-Sections can only be created in the admin page, as students and staff\
-should not have create permissions for sections
+- __Create__
+    - Sections can only be created in the admin page, as students and general staff\
+    should not have create permissions for sections
 
-__Read__
+- __Read__
 1. Click the `Sections` nav bar link to view a list of sections
 2. Click the `view` link next to a section to view the associated\
-section detail page
+`Section Details` page
+3. The `Student Details` page also has a view button next to the student's\
+enrolled sections to view the associated `Section Details` page
 
-__Update__
-1. The `Enroll Test` button will enroll a student into a section but\
-will be fully implemented after account authentication is implemented
-2. From the sections detail page, click the `Update` link to go to the\
-section update page
-3. In the Enrolled Students table, click the `withdraw` button next to\
-the student you wish to remove from the section
-4. Select a student from the drop down menu and click `enroll` to enroll\
-the student into the associated section
+- __Update__
+1. On the `Section Details` page, if logged in as a student, the `Enroll` button\
+will enroll a student into a section if checks are passed
+2. On the `Section Details` page, if logged in as a staff user, click the `Update`\ 
+button to go to update the section enrollments
+3. To remove a student from a section, click the `Withdraw` button next to the student
+4. To add a student, select a student from the drop down menu, and click the `Enroll` button
 
-__Delete__\
-Sections can only be deleted in the admin page, as students and staff\
-should not have delete permissions for sections
+- __Delete__
+    - Sections can only be deleted in the admin page, as students and general staff\
+    should not have delete permissions for sections
