@@ -9,6 +9,7 @@ class MajorAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
+    readonly_fields = ['user', 'semester_enrolled', 'year_enrolled']
     list_display = ('first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled')
     search_fields = ('first_name', 'last_name', 'major__title', 'semester_enrolled', 'year_enrolled')
     
@@ -35,6 +36,9 @@ class EnrollmentsAdmin(admin.ModelAdmin):
     search_fields = ('course__name', 'id', 'professor__first_name', 'professor__last_name', 'semester', 'year', 'size')
     fields = ['students']
     filter_horizontal = ['students']
+
+    def has_add_permission(self, request):
+        return False
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
