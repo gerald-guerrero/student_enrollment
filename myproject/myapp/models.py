@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import m2m_changed, post_delete
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
+from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
 from django.contrib.auth.models import User
 
@@ -102,7 +103,7 @@ class Section(models.Model):
     semester = models.CharField(max_length=10, choices=Semesters.choices, help_text="Select which semester the section will take place")
     year = models.IntegerField(help_text="Provide the year the section will take place")
     size = models.IntegerField(default=50, help_text="Provide the maximum amount of students that can register for this section")
-    students = models.ManyToManyField(Student, related_name="sections", related_query_name="section", blank=True)
+    students = models.ManyToManyField(Student, related_name="sections", related_query_name="section", through="Enrollment", blank=True)
 
     def __str__(self):
         return f"({self.id}) {self.course.name}, {self.semester} {self.year}"
@@ -151,9 +152,22 @@ class Schedule(models.Model):
         if is_time_conflict([self], self.section.schedules.exclude(pk=self.pk).all()):
             raise ValidationError("Time Slots Overlap")
         
-class SectionEnrollment(Section):
+class Enrollment(models.Model):
+    """
+    Many to Many model designated in the 'through' field for Section students attribute
+    """
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
     class Meta:
-        proxy = True
+        constraints = [UniqueConstraint(fields=['section', 'student'], name='unique_enrollment')]
+
+    def __str__(self):
+        major = self.section.course.major
+        course = self.section.course
+        section = self.section.id
+        student = self.student
+        return f"{major}, {course} [{section}], {student}"
 
 def check_year(year):
     year_min = 2024

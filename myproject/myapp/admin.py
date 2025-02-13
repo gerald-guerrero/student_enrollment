@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Major, Student, Professor, Course, Section, Schedule, SectionEnrollment
+from .models import Major, Student, Professor, Course, Section, Schedule, Enrollment
 
 # Register your models here.
 @admin.register(Major)
@@ -30,15 +30,10 @@ class SectionAdmin(admin.ModelAdmin):
     list_display = ('course__name', 'professor', 'building', 'room', 'semester', 'year', 'size')
     search_fields = ('course__name', 'professor__first_name', 'professor__last_name', 'building', 'room', 'semester', 'year', 'size')
 
-@admin.register(SectionEnrollment)
-class EnrollmentsAdmin(admin.ModelAdmin):
-    list_display = ('course', 'id', 'professor','semester', 'year', 'size')
-    search_fields = ('course__name', 'id', 'professor__first_name', 'professor__last_name', 'semester', 'year', 'size')
-    fields = ['students']
-    filter_horizontal = ['students']
-
-    def has_add_permission(self, request):
-        return False
+@admin.register(Enrollment)
+class EnrollmentAdmin(admin.ModelAdmin):
+    list_display = ['section', 'student']
+    search_fields = ['section', 'student']
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
