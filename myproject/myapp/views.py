@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_not_required
+from django.utils.decorators import method_decorator
 from rest_framework import viewsets, permissions
 from .models import Student, Professor, Major, Course, Section, Schedule
 from .serializers import (StudentSerializer, ProfessorSerializer, MajorSerializer,
@@ -22,18 +23,21 @@ class StudentViewSet(viewsets.ModelViewSet):
     permission_classes = [StudentAccessPermission]
     http_method_names = ['get', 'head']
 
+@method_decorator(login_not_required, name="dispatch")
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor.objects.all().order_by('id')
     serializer_class = ProfessorSerializer
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
 
+@method_decorator(login_not_required, name="dispatch")
 class MajorViewSet(viewsets.ModelViewSet):
     queryset = Major.objects.all().order_by('id')
     serializer_class = MajorSerializer
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
 
+@method_decorator(login_not_required, name="dispatch")
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all().order_by('id')
     serializer_class = CourseSerializer
