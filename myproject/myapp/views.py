@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from .models import Section
 from django.contrib.auth.decorators import login_not_required
+from rest_framework import viewsets, permissions
+from .models import Student
+from .serializers import StudentSerializer
+from .permissions import StudentAccessPermission
 
 @login_not_required
 def homepage(request):
@@ -10,3 +13,9 @@ def homepage(request):
     """
 
     return render(request, "myapp/index.html")
+
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset = Student.objects.all().order_by('id')
+    serializer_class = StudentSerializer
+    permission_classes = [StudentAccessPermission]
+    http_method_names = ['get', 'head']

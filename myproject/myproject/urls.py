@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from myapp import views
+from rest_framework.routers import DefaultRouter
+from myapp.views import StudentViewSet
+
+router = DefaultRouter()
+router.register(r'students', StudentViewSet, basename='student')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +29,5 @@ urlpatterns = [
     path('students/', include('student_records.urls')),
     path('sections/', include('section_records.urls')),
     path('accounts/', include('allauth.urls')),
+    path('api/', include(router.urls)),
 ]
