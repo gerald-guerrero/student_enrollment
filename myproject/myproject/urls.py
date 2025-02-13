@@ -19,7 +19,8 @@ from django.urls import path, include
 from myapp import views
 from rest_framework.routers import DefaultRouter
 from myapp.views import (StudentViewSet, ProfessorViewSet, MajorViewSet,
-                         CourseViewSet, SectionViewSet, ScheduleViewSet
+                         CourseViewSet, SectionViewSet, ScheduleViewSet,
+                         EnrollmentViewSet
                          )
 
 router = DefaultRouter()
@@ -29,6 +30,7 @@ router.register(r'majors', MajorViewSet, basename='major')
 router.register(r'courses', CourseViewSet, basename='course')
 router.register(r'sections', SectionViewSet, basename='section')
 router.register(r'schedules', ScheduleViewSet, basename='schedule')
+router.register(r'enrollments', EnrollmentViewSet, basename='enrollment')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import Student, Professor, Major, Course, Section, Schedule
+from .models import (Student, Professor, Major, Course, Section, Schedule, Enrollment,
+                      is_time_conflict)
+from django.core.exceptions import ValidationError
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,3 +38,23 @@ class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
         fields = ['id', 'course', 'professor', 'building', 'room', 'semester', 'year', 'size', 'schedules']
+
+class EnrollmentSerializer(serializers.ModelSerializer):
+    section_major = serializers.StringRelatedField(source="section.course.major")
+    section_name = serializers.StringRelatedField(source="section")
+    student_name = serializers.StringRelatedField(source='student')
+    section = serializers.PrimaryKeyRelatedField(queryset=Section.objects.all())
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    class Meta:
+        model = Enrollment
+        fields = '__all__'
+
+    def validate(self, attrs):
+        section = attrs['section']
+        student = attrs['student']
+
+        if section.is_full():
+            raise ValidationError("Section is full")
+        
+        if is_time_conflict(student.get_all_schedules(), section.get_schedules()):
+            raise ValidationError("Time conflict")

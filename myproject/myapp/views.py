@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_not_required
 from django.utils.decorators import method_decorator
 from rest_framework import viewsets, permissions
-from .models import Student, Professor, Major, Course, Section, Schedule
+from .models import Student, Professor, Major, Course, Section, Schedule, Enrollment
 from .serializers import (StudentSerializer, ProfessorSerializer, MajorSerializer,
-                          CourseSerializer, SectionSerializer, ScheduleSerializer
+                          CourseSerializer, SectionSerializer, ScheduleSerializer,
+                          EnrollmentSerializer
                           )
 from .permissions import StudentAccessPermission
 
@@ -55,3 +56,9 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = ScheduleSerializer
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
+
+class EnrollmentViewSet(viewsets.ModelViewSet):
+    queryset = Enrollment.objects.all()
+    serializer_class = EnrollmentSerializer
+    permission_classes = [permissions.IsAdminUser]
+    

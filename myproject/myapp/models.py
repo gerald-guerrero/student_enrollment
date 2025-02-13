@@ -161,7 +161,7 @@ class Enrollment(models.Model):
 
     class Meta:
         constraints = [UniqueConstraint(fields=['section', 'student'], name='unique_enrollment')]
-
+    
     def __str__(self):
         major = self.section.course.major
         course = self.section.course
