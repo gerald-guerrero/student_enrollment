@@ -7,7 +7,7 @@ from .serializers import (StudentSerializer, ProfessorSerializer, MajorSerialize
                           CourseSerializer, SectionSerializer, ScheduleSerializer,
                           EnrollmentSerializer
                           )
-from .permissions import StaffListOnly, SelfAndStaffEnroll, IsStaffOrOwner
+from .permissions import StaffListOnly, IsStaffOrOwner
 
 @login_not_required
 def homepage(request):
@@ -60,5 +60,5 @@ class ScheduleViewSet(viewsets.ModelViewSet):
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
-    permission_classes = [StaffListOnly, SelfAndStaffEnroll, IsStaffOrOwner]
+    permission_classes = [StaffListOnly, IsStaffOrOwner]
     

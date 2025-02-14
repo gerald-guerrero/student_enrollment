@@ -51,8 +51,14 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, attrs):
+        user = self.context.get("request").user
+
         section = attrs['section']
         student = attrs['student']
+
+        if (not user.is_staff): 
+            if user.student != student:
+                raise ValidationError("You cannot enroll another student")
 
         if section.is_full():
             raise ValidationError("Section is full")
