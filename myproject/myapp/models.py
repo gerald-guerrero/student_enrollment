@@ -168,6 +168,16 @@ class Enrollment(models.Model):
         section = self.section.id
         student = self.student
         return f"{major}, {course} [{section}], {student}"
+    
+    def clean(self):
+        section = self.section
+        student = self.student
+
+        if section.is_full():
+            raise ValidationError("Section is full")
+        
+        if is_time_conflict(student.get_all_schedules(), section.get_schedules()):
+            raise ValidationError("Time conflict")
 
 def check_year(year):
     year_min = 2024

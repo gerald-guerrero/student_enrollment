@@ -33,7 +33,7 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
     list_display = ['section', 'student']
-    search_fields = ['section', 'student']
+    search_fields = ['section__course__name', 'student__first_name', 'student__last_name']
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):

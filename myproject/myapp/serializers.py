@@ -45,6 +45,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     student_name = serializers.StringRelatedField(source='student')
     section = serializers.PrimaryKeyRelatedField(queryset=Section.objects.all())
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+
     class Meta:
         model = Enrollment
         fields = '__all__'
@@ -58,3 +59,4 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         
         if is_time_conflict(student.get_all_schedules(), section.get_schedules()):
             raise ValidationError("Time conflict")
+        return attrs

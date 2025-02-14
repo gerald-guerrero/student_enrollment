@@ -7,7 +7,7 @@ from .serializers import (StudentSerializer, ProfessorSerializer, MajorSerialize
                           CourseSerializer, SectionSerializer, ScheduleSerializer,
                           EnrollmentSerializer
                           )
-from .permissions import StudentAccessPermission
+from .permissions import StaffListOnly, SelfAndStaffEnroll, IsStaffOrOwner
 
 @login_not_required
 def homepage(request):
@@ -21,7 +21,7 @@ def homepage(request):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all().order_by('id')
     serializer_class = StudentSerializer
-    permission_classes = [StudentAccessPermission]
+    permission_classes = [StaffListOnly, IsStaffOrOwner]
     http_method_names = ['get', 'head']
 
 @method_decorator(login_not_required, name="dispatch")
@@ -48,17 +48,17 @@ class CourseViewSet(viewsets.ModelViewSet):
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all().order_by('id')
     serializer_class = SectionSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
 
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all().order_by('id')
     serializer_class = ScheduleSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [StaffListOnly, SelfAndStaffEnroll, IsStaffOrOwner]
     
