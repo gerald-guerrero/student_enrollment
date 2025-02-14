@@ -119,3 +119,31 @@ button to go to update the section enrollments
 - __Delete__
     - Sections can only be deleted in the admin page, as students and general staff\
     should not have delete permissions for sections
+
+## DRF API
+- Default Basic Root View (Requires Authentication):  
+    - http://127.0.0.1:8000/api/  
+
+
+- Public API Endpoints: 
+    > Read Only API endpoints, requires no authentication
+    - http://127.0.0.1:8000/api/professors/
+    - http://127.0.0.1:8000/api/professors/<id>
+    - http://127.0.0.1:8000/api/majors/
+    - http://127.0.0.1:8000/api/majors/<id>
+    - http://127.0.0.1:8000/api/courses/
+    - http://127.0.0.1:8000/api/courses/<id>
+    
+- All Authenticated API Endpoints:
+    > Requires authentication, enrollment endpoint allows for full CRUD. All others are read-only
+    - http://127.0.0.1:8000/api/students/<id>
+    - http://127.0.0.1:8000/api/enrollments/<id>
+    - http://127.0.0.1:8000/api/sections/
+    - http://127.0.0.1:8000/api/sections/<id>
+    - http://127.0.0.1:8000/api/schedules/
+    - http://127.0.0.1:8000/api/schedules/<id>
+
+- Staff Only API Endpoints:
+    > Requires staff user, enrollment endpoint allows for full CRUD. All others are read-only
+    - http://127.0.0.1:8000/api/students/
+    - http://127.0.0.1:8000/api/enrollments/
