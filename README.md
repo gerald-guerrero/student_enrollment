@@ -126,7 +126,7 @@ button to go to update the section enrollments
 
 
 - Public API Endpoints: 
-    > Read Only API endpoints, requires no authentication
+    > Requires no authentication, read-only
     - http://127.0.0.1:8000/api/professors/
     - http://127.0.0.1:8000/api/professors/<id>
     - http://127.0.0.1:8000/api/majors/
@@ -135,15 +135,23 @@ button to go to update the section enrollments
     - http://127.0.0.1:8000/api/courses/<id>
     
 - All Authenticated API Endpoints:
-    > Requires authentication, enrollment endpoint allows for full CRUD. All others are read-only
-    - http://127.0.0.1:8000/api/students/<id>
-    - http://127.0.0.1:8000/api/enrollments/<id>
+    > Requires authentication, read-only
     - http://127.0.0.1:8000/api/sections/
     - http://127.0.0.1:8000/api/sections/<id>
     - http://127.0.0.1:8000/api/schedules/
     - http://127.0.0.1:8000/api/schedules/<id>
 
 - Staff Only API Endpoints:
-    > Requires staff user, enrollment endpoint allows for full CRUD. All others are read-only
+    > Requires staff user, read-only
     - http://127.0.0.1:8000/api/students/
+
+- Staff or Student Object Owner Endpoints:
+    - http://127.0.0.1:8000/api/students/<id>
+        - read-only
     - http://127.0.0.1:8000/api/enrollments/
+        - Only Staff can view entries
+        - Staff can use Create operation for all students
+        - Student users can use Create operation for themselves, not other student users
+    - http://127.0.0.1:8000/api/enrollments/<id>
+        - Staff can use Read, Update, Delete
+        - Student users can use Read, Update, Delete for their own entries
