@@ -18,6 +18,7 @@ def homepage(request):
 
     return render(request, "myapp/index.html")
 
+@method_decorator(login_not_required, name="dispatch")
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all().order_by('id')
     serializer_class = StudentSerializer
@@ -45,18 +46,21 @@ class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
 
+@method_decorator(login_not_required, name="dispatch")
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all().order_by('id')
     serializer_class = SectionSerializer
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
 
+@method_decorator(login_not_required, name="dispatch")
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all().order_by('id')
     serializer_class = ScheduleSerializer
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
 
+@method_decorator(login_not_required, name="dispatch")
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
