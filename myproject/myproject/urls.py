@@ -17,13 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from myapp import views
-from rest_framework.routers import DefaultRouter
+from myapp.routers import CustomRootRouter
 from myapp.views import (StudentViewSet, ProfessorViewSet, MajorViewSet,
                          CourseViewSet, SectionViewSet, ScheduleViewSet,
                          EnrollmentViewSet
                          )
 
-router = DefaultRouter()
+router = CustomRootRouter()
 router.register(r'students', StudentViewSet, basename='student')
 router.register(r'professors', ProfessorViewSet, basename='professor')
 router.register(r'majors', MajorViewSet, basename='major')

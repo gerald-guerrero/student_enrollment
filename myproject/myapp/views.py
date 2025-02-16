@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_not_required
 from django.utils.decorators import method_decorator
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, routers
 from .models import Student, Professor, Major, Course, Section, Schedule, Enrollment
 from .serializers import (StudentSerializer, ProfessorSerializer, MajorSerializer,
                           CourseSerializer, SectionSerializer, ScheduleSerializer,
@@ -17,6 +17,10 @@ def homepage(request):
     """
 
     return render(request, "myapp/index.html")
+
+@method_decorator(login_not_required, name="dispatch")
+class ApiRootView(routers.APIRootView):
+    pass
 
 @method_decorator(login_not_required, name="dispatch")
 class StudentViewSet(viewsets.ModelViewSet):
