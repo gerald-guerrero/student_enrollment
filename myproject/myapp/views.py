@@ -8,6 +8,8 @@ from .serializers import (StudentSerializer, ProfessorSerializer, MajorSerialize
                           EnrollmentSerializer
                           )
 from .permissions import StaffListOnly, IsStaffOrOwner
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 @login_not_required
 def homepage(request):
@@ -28,6 +30,9 @@ class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
     permission_classes = [StaffListOnly, IsStaffOrOwner]
     http_method_names = ['get', 'head']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['major', 'semester_enrolled', 'year_enrolled']
+    search_fields = ['first_name', 'last_name']
 
 @method_decorator(login_not_required, name="dispatch")
 class ProfessorViewSet(viewsets.ModelViewSet):
