@@ -121,6 +121,7 @@ button to go to update the section enrollments
     should not have delete permissions for sections
 
 ## DRF API
+### Endpoints
 - Default Basic Root View (Requires Authentication):  
     - http://127.0.0.1:8000/api/  
 
@@ -155,3 +156,58 @@ button to go to update the section enrollments
     - http://127.0.0.1:8000/api/enrollments/<id>
         - Staff can use Read, Update, Delete
         - Student users can use Read, Update, Delete for their own entries
+
+### Filtering, Searching, And Pagination
+to add search, filter, or page fields to the api endpoint, follow the format:  
+`http://127.0.0.1:8000/api/<viewset>/?<FilterField=Value>&<search=Value>&<page=value>`  
+Multiple filter fields may be included depending on the viewset  
+The 'search' field can be used to search some fields with partial information
+The 'page' field can be used to navigate multiple pages if results exceed the page limit size
+
+- students
+    - filter fields
+        - `major`: id
+        - `semester_enrolled`: string option
+        - `year_enrolled`: int
+    - search fields
+        - first and last name
+- professors
+    - filter fields
+        - `department`: string option
+    - search fields
+        - first and last name
+- majors
+    - search fields
+        - major title
+- courses
+    - filter fields
+        - `major`: id
+        - `name`: string
+        - `credits: int`
+    - search fields
+        - course name
+- sections
+    - filter fields
+        - `course`: id
+        - `professor`: id
+        - `building`: string
+        - `room`: string
+        - `semester`: string option
+        - `year`: int
+    - search fields
+        - course name
+- schedules
+    - filter fields
+        - `section`: id
+        - `class_day`: string option
+        - `start_time`: time 
+        - `end_time`: time
+    - search fields
+        - section's course name
+- enrollments
+    - filter fields
+        - `section`: id
+        - `student`: id
+    - search fields
+        - section's course name
+        - student first and last name
