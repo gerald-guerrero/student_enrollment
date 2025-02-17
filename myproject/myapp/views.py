@@ -40,6 +40,9 @@ class ProfessorViewSet(viewsets.ModelViewSet):
     serializer_class = ProfessorSerializer
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['department']
+    search_fields = ['first_name', 'last_name']
 
 @method_decorator(login_not_required, name="dispatch")
 class MajorViewSet(viewsets.ModelViewSet):
@@ -47,6 +50,8 @@ class MajorViewSet(viewsets.ModelViewSet):
     serializer_class = MajorSerializer
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['title']
 
 @method_decorator(login_not_required, name="dispatch")
 class CourseViewSet(viewsets.ModelViewSet):
@@ -54,6 +59,9 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
     http_method_names = ['get', 'head']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['major', 'name', 'credits']
+    search_fields = ['name']
 
 @method_decorator(login_not_required, name="dispatch")
 class SectionViewSet(viewsets.ModelViewSet):
@@ -61,6 +69,8 @@ class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['course', 'professor', 'building', 'room', 'semester', 'year']
 
 @method_decorator(login_not_required, name="dispatch")
 class ScheduleViewSet(viewsets.ModelViewSet):
@@ -68,10 +78,15 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = ScheduleSerializer
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['section', 'class_day']
 
 @method_decorator(login_not_required, name="dispatch")
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
     permission_classes = [StaffListOnly, IsStaffOrOwner]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['section', 'student']
+    search_fields = ['section', 'student']
     
