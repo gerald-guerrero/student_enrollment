@@ -71,6 +71,7 @@ class SectionViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'head']
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['course', 'professor', 'building', 'room', 'semester', 'year']
+    search_fields = ['course']
 
 @method_decorator(login_not_required, name="dispatch")
 class ScheduleViewSet(viewsets.ModelViewSet):
@@ -79,7 +80,8 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['section', 'class_day']
+    filterset_fields = ['section', 'class_day', 'start_time', 'end_time']
+    search_fields = ['section']
 
 @method_decorator(login_not_required, name="dispatch")
 class EnrollmentViewSet(viewsets.ModelViewSet):
