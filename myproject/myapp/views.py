@@ -69,9 +69,9 @@ class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['course', 'professor', 'building', 'room', 'semester', 'year']
-    search_fields = ['course']
+    search_fields = ['course__name']
 
 @method_decorator(login_not_required, name="dispatch")
 class ScheduleViewSet(viewsets.ModelViewSet):
@@ -79,9 +79,9 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = ScheduleSerializer
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get', 'head']
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['section', 'class_day', 'start_time', 'end_time']
-    search_fields = ['section']
+    search_fields = ['section__course__name']
 
 @method_decorator(login_not_required, name="dispatch")
 class EnrollmentViewSet(viewsets.ModelViewSet):
@@ -90,5 +90,5 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
     permission_classes = [StaffListOnly, IsStaffOrOwner]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['section', 'student']
-    search_fields = ['section', 'student']
+    search_fields = ['section__course__name', 'student__first_name', 'student__last_name']
     
