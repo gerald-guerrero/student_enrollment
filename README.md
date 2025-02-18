@@ -8,6 +8,8 @@
 - dgango-environ 0.12.0
 - django-allauth 65.3.1
 - django-allauth[socialaccount]
+- djangorestframework 3.15.2
+- django-filter
 
 ## Instructions
 ### Google API Setup for Allauth
