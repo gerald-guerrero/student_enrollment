@@ -4,6 +4,7 @@ from .models import (Student, Professor, Major, Course, Section, Schedule, Enrol
 from django.core.exceptions import ValidationError
 
 class StudentSerializer(serializers.ModelSerializer):
+    major = serializers.StringRelatedField()
     class Meta:
         model = Student
         fields = ['id', 'first_name', 'last_name', 'major', 'semester_enrolled', 'year_enrolled']
