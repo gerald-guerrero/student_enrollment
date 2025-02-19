@@ -18,7 +18,7 @@
 ### Google API Setup for Allauth
 1. Go to https://console.cloud.google.com/
 2. In the sidebar, go to __APIs & Services__ then > __Credentials__ > __CREATE CREDENTIALS__ >__OAuth client ID__
-3. Set application type to Web application and __Authorized redirect URIs to `http://localhost:8000/accounts/google/login/callback/`
+3. Set application type to Web application and __Authorized redirect URIs to `http://127.0.0.1:8000/accounts/google/login/callback/`
 4. Continue the application process (it make ask you to fill out an additonal process)
 5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
 
@@ -43,7 +43,7 @@ POSTGRES_PASSWORD=DB_PASSWORD
 ```
 
 ### Docker Setup
-1. Build the containers with:
+1. Build and run the containers with:
 >`docker-compose up --build`
 2. To run containers afterwards, use:
 >`docker-compose up`
@@ -51,6 +51,8 @@ POSTGRES_PASSWORD=DB_PASSWORD
 >`docker exec -it django_web bash`
 4. Create a superuser with:
 >`python manage.py createsuperuser`
+5. exit the interactive shell with:
+>`exit`
 
 ### Admin Page Setup
 1. Go to http://localhost to view the homepage and click the Login link in the nav bar
