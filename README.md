@@ -7,6 +7,8 @@
 - Docker Desktop 4.38.0
 - Django 5.1.5
 - psycopg 3.2.4
+- psycopg-binary 3.2.4
+- psycopg-pool 3.2.4
 - dgango-environ 0.12.0
 - django-allauth 65.3.1
 - django-allauth[socialaccount]
@@ -47,8 +49,8 @@ DB_PORT=your_db_port
 ### Docker Setup
 1. Build the image with:
 >`docker build -t my-django-app .`
-2. Run the container with:
->`docker run -p 8000:8000 my-django-app`
+2. For local development, run the container with:
+>`docker run --env-file .env -p 8000:8000 my-django-app`
 
 ### Admin Page Setup
 1. Go to http://localhost to view the homepage and click the Login link in the nav bar
