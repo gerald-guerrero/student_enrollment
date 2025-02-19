@@ -3,19 +3,22 @@
 ## Requirements
 - Python 3.13.0
 - psql 17.2
+- Docker 27.5.1
+- Docker Desktop 4.38.0
 - Django 5.1.5
 - psycopg 3.2.4
-- dgango-environ 0.12.0
+- psycopg-binary 3.2.4
+- psycopg-pool 3.2.4
 - django-allauth 65.3.1
 - django-allauth[socialaccount]
 - djangorestframework 3.15.2
-- django-filter
+- django-filter 25.1
 
 ## Instructions
 ### Google API Setup for Allauth
 1. Go to https://console.cloud.google.com/
 2. In the sidebar, go to __APIs & Services__ then > __Credentials__ > __CREATE CREDENTIALS__ >__OAuth client ID__
-3. Set application type to Web application and __Authorized redirect URIs to `http://127.0.0.1:8000/accounts/google/login/callback/`
+3. Set application type to Web application and __Authorized redirect URIs to `http://localhost:8000/accounts/google/login/callback/`
 4. Continue the application process (it make ask you to fill out an additonal process)
 5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
 
@@ -24,34 +27,34 @@
 >`git clone https://github.com/gerald-guerrero/student_enrollment.git`
 2. CD into the repository:
 >`cd student_enrollment`
-3. Create a virtual environment:
->`python -m venv venv`
-4. Activate the virtual environment:
->`venv\Scripts\activate`
-5. Install all dependencies:
->`pip install -r requirements.txt`
 
 ### Database Setup
 1. CD into the root myproject directory:
 >`cd myproject`
 2. create a .env file in the the current directory and fill out the following environmental variables\
-with your postgresql database information
+with your env information
 ```bash
-DB_NAME=your_db_name
-DB_USER=your_db_username
-DB_PASSWORD=your_db_password
-DB_HOST=your_db_host
-DB_PORT=your_db_port
+SECRET_KEY=secretkey
+DEBUG=True
+
+POSTGRES_DB=DB_NAME
+POSTGRES_USER=DB_USER
+POSTGRES_PASSWORD=DB_PASSWORD
 ```
-3. create db tables and allauth  in your database:
->`python manage.py migrate`
-4. create a superuser for the admin page
+
+### Docker Setup
+1. Build the containers with:
+>`docker-compose up --build`
+2. To run containers afterwards, use:
+>`docker-compose up`
+3. While containers are running, start an interactive shell in a separate terminal with:
+>`docker exec -it django_web bash`
+4. Create a superuser with:
 >`python manage.py createsuperuser`
 
 ### Admin Page Setup
-1. While in the root directory, myproject:
->`python manage.py runserver`
-2. Go http://127.0.0.1:8000/admin and sign in to the admin page with the superuser credentials
+1. Go to http://localhost to view the homepage and click the Login link in the nav bar
+2. Sign in with your superuser credentials, then click the Admin page link in the nav bar
 3. Go to __Social applications__
 4. Click __ADD SOCIAL APPLICATION__
 5. Fill out the form with the __Client ID__ and __Secret Key__ you received from the Google API setup
@@ -125,43 +128,43 @@ button to go to update the section enrollments
 ## DRF API
 ### Endpoints
 - Default Basic Root View (Requires Authentication):  
-    - http://127.0.0.1:8000/api/  
+    - http://localhost:8000/api/  
 
 
 - Public API Endpoints: 
     > Requires no authentication, read-only
-    - http://127.0.0.1:8000/api/professors/
-    - http://127.0.0.1:8000/api/professors/<id>
-    - http://127.0.0.1:8000/api/majors/
-    - http://127.0.0.1:8000/api/majors/<id>
-    - http://127.0.0.1:8000/api/courses/
-    - http://127.0.0.1:8000/api/courses/<id>
+    - http://localhost:8000/api/professors/
+    - http://localhost:8000/api/professors/<id>
+    - http://localhost:8000/api/majors/
+    - http://localhost:8000/api/majors/<id>
+    - http://localhost:8000/api/courses/
+    - http://localhost:8000/api/courses/<id>
     
 - All Authenticated API Endpoints:
     > Requires authentication, read-only
-    - http://127.0.0.1:8000/api/sections/
-    - http://127.0.0.1:8000/api/sections/<id>
-    - http://127.0.0.1:8000/api/schedules/
-    - http://127.0.0.1:8000/api/schedules/<id>
+    - http://localhost:8000/api/sections/
+    - http://localhost:8000/api/sections/<id>
+    - http://localhost:8000/api/schedules/
+    - http://localhost:8000/api/schedules/<id>
 
 - Staff Only API Endpoints:
     > Requires staff user, read-only
-    - http://127.0.0.1:8000/api/students/
+    - http://localhost:8000/api/students/
 
 - Staff or Student Object Owner Endpoints:
-    - http://127.0.0.1:8000/api/students/<id>
+    - http://localhost:8000/api/students/<id>
         - read-only
-    - http://127.0.0.1:8000/api/enrollments/
+    - http://localhost:8000/api/enrollments/
         - Only Staff can view entries
         - Staff can use Create operation for all students
         - Student users can use Create operation for themselves, not other student users
-    - http://127.0.0.1:8000/api/enrollments/<id>
+    - http://localhost:8000/api/enrollments/<id>
         - Staff can use Read, Update, Delete
         - Student users can use Read, Update, Delete for their own entries
 
 ### Filtering, Searching, And Pagination
 to add search, filter, or page fields to the api endpoint, follow the format:  
-`http://127.0.0.1:8000/api/<viewset>/?<FilterField=Value>&<search=Value>&<page=value>`  
+`http://localhost:8000/api/<viewset>/?<FilterField=Value>&<search=Value>&<page=value>`  
 Multiple filter fields may be included depending on the viewset  
 The 'search' field can be used to search some fields with partial information
 The 'page' field can be used to navigate multiple pages if results exceed the page limit size
