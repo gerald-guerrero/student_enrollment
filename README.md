@@ -22,37 +22,68 @@
 4. Continue the application process (it make ask you to fill out an additonal process)
 5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
 
-### Cloning Repository
+### AWS EC2 And ECR Setup
+1. Login in to AWS and go to the IAM page
+2. Create a role for an `AWS Service` entity and `EC2` use case with the  
+`AmazonEC2ContainerRegistryReadOnly` permission
+3. Go to the Elastic Container Registry page and create a repository
+4. **Take note of the repository uri**
+5. Go to the EC2 page, then go to the Instances tab, and Click Launch Instances
+6. Configure the instance settings with:
+    - Amazon Linux 2 AMI
+    - t2.micro free tier
+    - allow ssh traffic from your IP address
+    - allow http traffic from the insternet
+    - in Advanced Details, click the IAM instance profile option and select the IAM role you made
+7. Launch the instance and create a new key pair
+8. **Save the .pem key and take note of the public ipv4 address and the public ipv4 dns**
+
+### Repository Setup
 1. In a terminal, navigate to your preferred directory and use the command:
 >`git clone https://github.com/gerald-guerrero/student_enrollment.git`
 2. CD into the repository:
 >`cd student_enrollment`
-
-### Database Setup
-1. CD into the root myproject directory:
+3. CD into the root project folder:
 >`cd myproject`
-2. create a .env file in the the current directory and fill out the following environmental variables\
-with your env information
-```bash
-SECRET_KEY=secretkey
-DEBUG=True
+4. Create a .env file in the the current directory and fill it out according to the .env.example
+5. In the inner myproject folder settings.py file, edit  
+`ALLOWED_HOSTS = ['ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com', 'your-ec2-ip', 'localhost']`  
+to include your ec2 ipv4 dns and your ec2 ipv4 ip address
+6. In the docker-compose.yml file, change the web: image: content from  
+`123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`  
+to **use the repository uri you noted earlier and append :latest** so it matches the previous format
+(the image will be built and pushed in the next section)
 
-POSTGRES_DB=DB_NAME
-POSTGRES_USER=DB_USER
-POSTGRES_PASSWORD=DB_PASSWORD
-```
-
-### Docker Setup
-1. Build and run the containers with:
->`docker-compose up --build`
-2. To run containers afterwards, use:
->`docker-compose up`
-3. While containers are running, start an interactive shell in a separate terminal with:
->`docker exec -it django_web bash`
-4. Create a superuser with:
->`python manage.py createsuperuser`
-5. exit the interactive shell with:
->`exit`
+### AWS Deploment
+1. Use the following commands to build and push image to your aws container registry  
+(use your repository uri and region)  
+`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
+`docker build -t my-django-app .`  
+`docker tag my-django-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`  
+`docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`
+2. Copy your .env and docker-compose.yml file to the ec2 with the command  
+(use the path for the .pem key and the ec2 public ip address you noted earlier)  
+`scp -i /path/to/key.pem docker-compose.yml .env ec2-user@<EC2-Public-IP>:~`
+3. Connect to the ec2  
+(use the path for the .pem key and the ec2 public ip address you noted earlier)  
+`ssh -i /path/to/key.pem ec2-user@<EC2-Public-IP>`
+4. Use the following commands to update the ec2 and install docker  
+`sudo yum update -y`  
+`sudo amazon-linux-extras install docker -y`  
+`sudo service docker start`  
+`sudo usermod -aG docker ec2-user`  
+Logout and log back in to the instance  
+`DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)`  
+`sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose`  
+`sudo chmod +x /usr/local/bin/docker-compose`  
+5. Pull the django image and run the containers with  
+`docker-compose up -d`
+6. if you run unto an `pull request denied` error, run the following commands to authenticate and run containers  
+(use your repository uri and region)  
+`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
+`docker-compose up -d`
+7. While containers are running, create a superuser with  
+`docker-compose exec web python manage.py createsuperuser`
 
 ### Admin Page Setup
 1. Go to http://localhost to view the homepage and click the Login link in the nav bar

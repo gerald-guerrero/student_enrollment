@@ -3,3 +3,4 @@
 **/staticfiles
 .git
 .env
+.env.example
