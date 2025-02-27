@@ -15,12 +15,6 @@
 - django-filter 25.1
 
 ## Instructions
-### Google API Setup for Allauth
-1. Go to https://console.cloud.google.com/
-2. In the sidebar, go to __APIs & Services__ then > __Credentials__ > __CREATE CREDENTIALS__ >__OAuth client ID__
-3. Set application type to Web application and __Authorized redirect URIs to `http://127.0.0.1:8000/accounts/google/login/callback/`
-4. Continue the application process (it make ask you to fill out an additonal process)
-5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
 
 ### AWS EC2 And ECR Setup
 1. Login in to AWS and go to the IAM page
@@ -85,15 +79,26 @@ Logout and log back in to the instance
 7. While containers are running, create a superuser with  
 `docker-compose exec web python manage.py createsuperuser`
 
+### Google API Setup for Allauth
+1. Go to https://console.cloud.google.com/
+2. In the sidebar, go to __APIs & Services__ then > __Credentials__ > __CREATE CREDENTIALS__ >__OAuth client ID__
+3. Set application type to Web application and __Authorized redirect URIs__ to  
+(Use your ec2 ipv4 dns)  
+`ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com/accounts/google/login/callback/`
+4. Continue the application process (it make ask you to fill out an additonal process)
+5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
+
 ### Admin Page Setup
-1. Go to http://localhost to view the homepage and click the Login link in the nav bar
+1. Go to your ec2 ipv4 dns to view the homepage and click the Login link in the nav bar
 2. Sign in with your superuser credentials, then click the Admin page link in the nav bar
-3. Go to __Social applications__
-4. Click __ADD SOCIAL APPLICATION__
-5. Fill out the form with the __Client ID__ and __Secret Key__ you received from the Google API setup
-6. In the __Sites__ field, add localhost to __Chosen site__. You may need to create it with the green plus button
-7. Go to __Groups__ and click __ADD GROUP__
-8. Name it "staff" and add the following permissions 
+3. Go to __Sites__ and click example.com if available. Replace domain name and display name with your ec2 ipv4 dns
+4. If example.com is not there, click ADD SITE and use your ec2 ipv4 dns to create the site
+5. Go to __Social applications__
+6. Click __ADD SOCIAL APPLICATION__
+7. Fill out the form with the __Client ID__ and __Secret Key__ you received from the Google API setup
+8. In the __Sites__ field, add the ec2 ipv4 dns to __Chosen site__
+9. Go to __Groups__ and click __ADD GROUP__
+10. Name it "staff" and add the following permissions 
     - Myapp | course | can view course
     - Myapp | major | can view major
     - Myapp | professor | can view professor
