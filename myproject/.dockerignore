@@ -1,7 +1,11 @@
-**/__pycache__
-**/venv
-**/staticfiles
-.git
+**/__pycache__/
+**/venv/
+**/staticfiles/
+**/*.py[cod]
+**/*.mo
+**/*.md
+**/.git/
+.gitignore
 .env
 .env.example
 .env.dev
