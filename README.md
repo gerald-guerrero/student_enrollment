@@ -3,6 +3,7 @@
 ## Requirements
 - Python 3.13.0
 - psql 17.2
+- aws-cli
 - Docker 27.5.1
 - Docker Desktop 4.38.0
 - Django 5.1.5
@@ -41,13 +42,13 @@
 >`cd myproject`
 4. Create a .env file in the the current directory and fill it out according to the .env.example  
 This includes youer ipv4 address and ipv4 dns you noted earlier  
-**For ALLOWED_HOSTS, ensure every host is separated by a single space**  
+**For ALLOWED_HOSTS, ensure every host is separated by a single space and keep DEBUG=False**  
 5. In the docker-compose.yml file, change the web: image: content from  
 `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`  
 to **use the repository uri you noted earlier and append :latest** so it matches the previous format
 (the image will be built and pushed in the next section)
 
-### AWS Deploment
+### AWS Deploment (Production)
 1. Use the following commands to build and push image to your aws container registry  
 (use your repository uri and region)  
 - `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
@@ -78,24 +79,39 @@ Logout and log back in to the instance
 7. While containers are running, create a superuser with  
 - `docker-compose exec web python manage.py createsuperuser`
 
+### Run Locally (Development)
+1. Create a .env.dev file in the the current directory and fill it out according to the .env.dev.example  
+**Keep the values given in the example for DEBUG and ALLOWED_HOSTS**  
+2. Create and run the containers with docker-compose.dev.yml:  
+- `docker-compose --file docker-compose.dev.yml up --build`
+3. In a separate terminal create a superuser:  
+- `docker-compose --file docker-compose.dev.yml exec web python manage.py createsuperuser`
+4. Use ctrl+c to stop running the containers and the following command to start them again:  
+- `docker-compose --file docker-compose.dev.yml up`
+5. The containers will run on http://localhost:8000
+
 ### Google API Setup for Allauth
 1. Go to https://console.cloud.google.com/
 2. In the sidebar, go to __APIs & Services__ then > __Credentials__ > __CREATE CREDENTIALS__ >__OAuth client ID__
-3. Set application type to Web application and __Authorized redirect URIs__ to  
-(Use your ec2 ipv4 dns)  
-`ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com/accounts/google/login/callback/`
+3. Set application type to Web application and add one or both of the following to __Authorized redirect URIs__  
+(Replace with your ec2 ipv4 dns, for production)  
+- `ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com/accounts/google/login/callback/`  
+(Add the following to access feature locally, for development)  
+- `http://127.0.0.1:8000/accounts/google/login/callback/`
+- `http://localhost:8000/accounts/google/login/callback/`
 4. Continue the application process (it make ask you to fill out an additonal process)
 5. Save the __Client ID__ and __Client Secret__ (will be used later in the Django admin. Do not save in repository)
 
 ### Admin Page Setup
-1. Go to your ec2 ipv4 dns to view the homepage and click the Login link in the nav bar
+1. Go to your ec2 ipv4 dns (or http://localhost:8000 if running locally) to view the homepage and click the Login link in the nav bar
 2. Sign in with your superuser credentials, then click the Admin page link in the nav bar
-3. Go to __Sites__ and click example.com if available. Replace domain name and display name with your ec2 ipv4 dns
-4. If example.com is not there, click ADD SITE and use your ec2 ipv4 dns to create the site
+3. Go to __Sites__ and click example.com if available. Replace domain name and display name with your  
+ec2 ipv4 dns (or 'localhost' if running locally)  
+4. If example.com is not there, click ADD SITE and use your ec2 ipv4 dns (or 'localhost' if running locally)
 5. Go to __Social applications__
 6. Click __ADD SOCIAL APPLICATION__
 7. Fill out the form with the __Client ID__ and __Secret Key__ you received from the Google API setup
-8. In the __Sites__ field, add the ec2 ipv4 dns to __Chosen site__
+8. In the __Sites__ field, add the site you made or edited previously to __Chosen site__
 9. Go to __Groups__ and click __ADD GROUP__
 10. Name it "staff" and add the following permissions 
     - Myapp | course | can view course
