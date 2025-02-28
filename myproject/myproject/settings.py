@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback_secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com', 'your-domain.com', 'localhost']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split()
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

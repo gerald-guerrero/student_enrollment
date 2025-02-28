@@ -39,11 +39,10 @@
 >`cd student_enrollment`
 3. CD into the root project folder:
 >`cd myproject`
-4. Create a .env file in the the current directory and fill it out according to the .env.example
-5. In the inner myproject folder settings.py file, edit  
-`ALLOWED_HOSTS = ['ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com', 'your-ec2-ip', 'localhost']`  
-to include your ec2 ipv4 dns and your ec2 ipv4 ip address
-6. In the docker-compose.yml file, change the web: image: content from  
+4. Create a .env file in the the current directory and fill it out according to the .env.example  
+This includes youer ipv4 address and ipv4 dns you noted earlier  
+**For ALLOWED_HOSTS, ensure every host is separated by a single space**  
+5. In the docker-compose.yml file, change the web: image: content from  
 `123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`  
 to **use the repository uri you noted earlier and append :latest** so it matches the previous format
 (the image will be built and pushed in the next section)
@@ -51,33 +50,33 @@ to **use the repository uri you noted earlier and append :latest** so it matches
 ### AWS Deploment
 1. Use the following commands to build and push image to your aws container registry  
 (use your repository uri and region)  
-`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
-`docker build -t my-django-app .`  
-`docker tag my-django-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`  
-`docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`
+- `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
+- `docker build -t my-django-app .`  
+- `docker tag my-django-app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`  
+- `docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest`
 2. Copy your .env and docker-compose.yml file to the ec2 with the command  
 (use the path for the .pem key and the ec2 public ip address you noted earlier)  
-`scp -i /path/to/key.pem docker-compose.yml .env ec2-user@<EC2-Public-IP>:~`
+- `scp -i /path/to/key.pem docker-compose.yml .env ec2-user@<EC2-Public-IP>:~`
 3. Connect to the ec2  
 (use the path for the .pem key and the ec2 public ip address you noted earlier)  
-`ssh -i /path/to/key.pem ec2-user@<EC2-Public-IP>`
+- `ssh -i /path/to/key.pem ec2-user@<EC2-Public-IP>`
 4. Use the following commands to update the ec2 and install docker  
-`sudo yum update -y`  
-`sudo amazon-linux-extras install docker -y`  
-`sudo service docker start`  
-`sudo usermod -aG docker ec2-user`  
+- `sudo yum update -y`  
+- `sudo amazon-linux-extras install docker -y`  
+- `sudo service docker start`  
+- `sudo usermod -aG docker ec2-user`  
 Logout and log back in to the instance  
-`DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)`  
-`sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose`  
-`sudo chmod +x /usr/local/bin/docker-compose`  
+- `DOCKER_COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)`  
+- `sudo curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose`  
+- `sudo chmod +x /usr/local/bin/docker-compose`  
 5. Pull the django image and run the containers with  
-`docker-compose up -d`
+- `docker-compose up -d`
 6. if you run unto an `pull request denied` error, run the following commands to authenticate and run containers  
 (use your repository uri and region)  
-`aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
-`docker-compose up -d`
+- `aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com`  
+- `docker-compose up -d`
 7. While containers are running, create a superuser with  
-`docker-compose exec web python manage.py createsuperuser`
+- `docker-compose exec web python manage.py createsuperuser`
 
 ### Google API Setup for Allauth
 1. Go to https://console.cloud.google.com/
