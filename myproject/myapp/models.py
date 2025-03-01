@@ -65,10 +65,20 @@ class Professor(models.Model):
     has a one to many relationship with section
     """
     DEPARTMENT = {
-        "Business": "Business",
-        "Mathematics": "Mathematics",
+        "Humanities": "Humanities",
+        "Communication & Media Studies": "Communication & Media Studies",
+        "Law": "Law",
+        "Social Sciences": "Social Sciences",
+        "Business & Management": "Business & Management",
+        "Education": "Education",
+        "Health & Medical Sciences": "Health & Medical Sciences",
+        "Biological & Life Sciences": "Biological & Life Sciences",
+        "Physical Sciences": "Physical Sciences",
+        "Mathematics & Statistics": "Mathematics & Statistics",
+        "Computer Science & Information Technology": "Computer Science & Information Technology",
         "Engineering": "Engineering"
     }
+    
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     department = models.CharField(max_length=50, choices=DEPARTMENT)
