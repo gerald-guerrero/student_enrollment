@@ -3,7 +3,7 @@ services:
   web:
     image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-django-app:latest
     container_name: django_web
-    command: bash -c "python manage.py migrate && gunicorn --bind :8000 myproject.wsgi:application"
+    command: bash -c "python manage.py migrate && gunicorn --bind :8000 --workers 3 myproject.wsgi:application"
     env_file:
       - .env
     ports:
