@@ -84,7 +84,7 @@ class Professor(models.Model):
     department = models.CharField(max_length=50, choices=DEPARTMENT)
     
     def __str__(self):
-        return f"{self.first_name } {self.last_name}"
+        return f"{self.first_name } {self.last_name} - {self.department}"
 
 class Course(models.Model):
     """
